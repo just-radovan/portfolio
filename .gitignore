@@ -1,0 +1,6 @@
+# App configuration
+Portfolio/Config.swift
+
+# Cocoapod
+Pods/
+Podfile.lock

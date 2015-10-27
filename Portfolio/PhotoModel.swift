@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PhotoModel {
+struct PhotoModel {
     
     // Basic properties
     var id: Int32
@@ -37,8 +37,9 @@ class PhotoModel {
     var latitude: Double?
     var longitude: Double?
     
-    init(id: Int32, name: String) {
+    init(id: Int32, name: String, description: String) {
         self.id = id
         self.name = name
+        self.description = description
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ThumbnailModel {
+struct ThumbnailModel {
     
     var size: Int
     var url: String

@@ -1,0 +1,15 @@
+//
+//  Config.swift
+//  Portfolio
+//
+//  Created by Radovan on 27/10/15.
+//  Copyright © 2015 just Radovan. All rights reserved.
+//
+
+import Foundation
+
+struct Config {
+
+    /* Your 500px application consumer key. */
+    static let consumerKey: String = "..."
+}
