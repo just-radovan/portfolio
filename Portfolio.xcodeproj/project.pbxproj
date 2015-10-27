@@ -18,6 +18,8 @@
 		08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */; };
 		08B724D51BDF64E000654E04 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D41BDF64E000654E04 /* Config.swift */; };
 		08B724D91BDF6ADF00654E04 /* Config.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08B724D81BDF6ADF00654E04 /* Config.swift.txt */; };
+		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
+		08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */; };
 		75F315D118E2BD65C55AE2E3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CAAAE33C57B38F9193831BA /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,8 @@
 		08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
 		08B724D41BDF64E000654E04 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		08B724D81BDF6ADF00654E04 /* Config.swift.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Config.swift.txt; sourceTree = "<group>"; };
+		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
+		08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
 		0CAAAE33C57B38F9193831BA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33FD8B1408B7F3A071465777 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		582C78AF66730EE088B1E24D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,11 +98,11 @@
 		0834EE1C1BDE138400A5D413 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				08E3CC471BE23F5F00BF0B54 /* UI */,
 				08B724D31BDF64CD00654E04 /* Configuration */,
 				08AC6ED01BDE18FA00DBEBEC /* Model */,
 				08B724D01BDF5DE100654E04 /* Network */,
 				0834EE1D1BDE138400A5D413 /* AppDelegate.swift */,
-				0834EE1F1BDE138400A5D413 /* ViewController.swift */,
 				0834EE211BDE138400A5D413 /* Main.storyboard */,
 				0834EE241BDE138400A5D413 /* Assets.xcassets */,
 				0834EE261BDE138400A5D413 /* LaunchScreen.storyboard */,
@@ -140,6 +144,16 @@
 				08B724D81BDF6ADF00654E04 /* Config.swift.txt */,
 			);
 			name = Configuration;
+			sourceTree = "<group>";
+		};
+		08E3CC471BE23F5F00BF0B54 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */,
+				08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */,
+				0834EE1F1BDE138400A5D413 /* ViewController.swift */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 		B9945130F8BADC497CDC4826 /* Frameworks */ = {
@@ -313,7 +327,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */,
 				08AC6ED41BDE1C5500DBEBEC /* ThumbnailModel.swift in Sources */,
+				08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */,
 				08AC6ED21BDE191300DBEBEC /* PhotoModel.swift in Sources */,
 				08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */,
 				08B724D51BDF64E000654E04 /* Config.swift in Sources */,

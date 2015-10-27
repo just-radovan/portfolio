@@ -12,8 +12,8 @@ struct PhotoModel {
     
     // Basic properties
     var id: Int32
-    var name: String
-    var description: String?
+    var title: String
+    var desc: String?
     // Photo
     var width: Int?
     var height: Int?
@@ -24,22 +24,26 @@ struct PhotoModel {
     var rating: Float?
     var ratingHigh: Float?
     var nsfw: Bool?
-    var pageUrl: String?
     // EXIF
     var taken: NSDate?
-    var focalLength: Int?
-    var shutterSpeed: Float?
-    var aperture: Float?
-    var iso: Int?
+    var focalLength: String?
+    var shutterSpeed: String?
+    var aperture: String?
+    var iso: String?
     var camera: String?
     var lens: String?
     // Geolocation
     var latitude: Double?
     var longitude: Double?
     
-    init(id: Int32, name: String, description: String) {
+    init(id: Int32, title: String, desc: String) {
         self.id = id
-        self.name = name
-        self.description = description
+        self.title = title
+        self.desc = desc
     }
+}
+
+extension PhotoModel: Equatable {}
+func ==(lhs: PhotoModel, rhs: PhotoModel) -> Bool {
+    return lhs.id == rhs.id
 }

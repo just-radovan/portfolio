@@ -12,9 +12,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let downloader = PhotoDownloader()
-        downloader.downloadList()
     }
 
     override func didReceiveMemoryWarning() {
