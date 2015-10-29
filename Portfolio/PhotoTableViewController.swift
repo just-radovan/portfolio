@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class PhotoTableViewController: UITableViewController {
     
@@ -58,7 +59,7 @@ class PhotoTableViewController: UITableViewController {
         
         let photo = photos[indexPath.row]
         
-        // cell.thumbnailImage = nil
+        // Display photo details.
         cell.titleLabel.text = photo.title
         cell.descLabel.text = photo.desc
 
@@ -66,6 +67,12 @@ class PhotoTableViewController: UITableViewController {
             cell.takenLabel.text = dateFormatter.stringFromDate(taken)
         } else {
             cell.takenLabel.text = ""
+        }
+        
+        if let thumbnails = photo.thumbnails {
+            if thumbnails.count > 0 {
+                cell.thumbnailImage.af_setImageWithURL(NSURL(string: thumbnails[0].url)!)
+            }
         }
         
         return cell

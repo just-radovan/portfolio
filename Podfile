@@ -6,3 +6,4 @@ use_frameworks!
 
 pod 'SwiftyJSON'
 pod 'Alamofire', '~> 3.0'
+pod 'AlamofireImage', '~> 2.0'

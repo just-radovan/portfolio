@@ -39,7 +39,7 @@ class PhotoDownloader {
     
     // Download photo detail.
     func downloadDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
-        let params = ["consumer_key": Config.consumerKey]
+        let params = ["image_size": "2", "consumer_key": Config.consumerKey]
         
         Alamofire.request(.GET, "\(photoBaseUrl)/\(photo.id)", parameters: params).responseString { response in
             if let json = response.result.value {
@@ -56,8 +56,8 @@ class PhotoDownloader {
         if let dataFromString = json.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             let json = JSON(data: dataFromString)
             
-            for (_, photo):(String, JSON) in json["photos"] {
-                var photo = self.createPhotoFromJSON(photo)
+            for (_, element):(String, JSON) in json["photos"] {
+                var photo = self.createPhotoFromJSON(element)
                 
                 // Photo
                 photo.width = json["width"].intValue
@@ -80,7 +80,14 @@ class PhotoDownloader {
             let json = JSON(data: dataFromString)
             
             // Thumbnails
-            // TODO: Load thumbnails.
+            photo.thumbnails = [ThumbnailModel]()
+            for (_, element):(String, JSON) in json["photo"]["images"] {
+                let thumbnail = ThumbnailModel(
+                    size: element["size"].intValue,
+                    url: element["url"].stringValue
+                )
+                photo.thumbnails?.append(thumbnail)
+            }
             // 500px
             photo.ratingHigh = json["photo"]["highest_rating"].floatValue
             // EXIF
