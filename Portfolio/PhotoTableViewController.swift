@@ -23,6 +23,7 @@ class PhotoTableViewController: UITableViewController {
         preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
     )
     let thumbnailCacheID = "thumbnail"
+    let dataController = DataController()
     var photos = [PhotoModel]()
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,6 +43,7 @@ class PhotoTableViewController: UITableViewController {
                 for photo in self.photos {
                     downloader.downloadDetail(photo) { detail in
                         if let completedPhoto = detail, let index = photos.indexOf(photo) {
+                            self.dataController.saveOrUpdatePhoto(completedPhoto)
                             self.photos[index] = completedPhoto
                             self.tableView.reloadData()
                         }
