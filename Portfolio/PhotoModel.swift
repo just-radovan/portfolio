@@ -11,12 +11,12 @@ import Foundation
 struct PhotoModel {
     
     // Basic properties
-    var id: Int32
+    var id: Int64
     var title: String
     var desc: String?
     // Photo
-    var width: Int?
-    var height: Int?
+    var width: Int32?
+    var height: Int32?
     var photoUrl: String?
     // Thumbnails
     var thumbnails: [ThumbnailModel]?
@@ -36,7 +36,7 @@ struct PhotoModel {
     var latitude: Double?
     var longitude: Double?
     
-    init(id: Int32, title: String, desc: String) {
+    init(id: Int64, title: String, desc: String) {
         self.id = id
         self.title = title
         self.desc = desc

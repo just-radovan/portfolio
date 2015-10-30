@@ -13,9 +13,14 @@ import CoreData
 class ThumbnailMO: NSManagedObject {
 
     // Create managed object from data model.
-    func fill(photoModel: PhotoModel, thumbnailModel: ThumbnailModel) {
-        self.photoID = NSNumber(int: photoModel.id)
-        self.size = thumbnailModel.size
+    func fill(thumbnailModel: ThumbnailModel, photoModel: PhotoModel) {
+        self.photoID = NSNumber(longLong: photoModel.id)
+        self.size = NSNumber(int: thumbnailModel.size)
         self.url = thumbnailModel.url
+    }
+    
+    // Create data model from managed object.
+    func getThumbnailModel() -> ThumbnailModel {
+        return ThumbnailModel(size: self.size.intValue, url: self.url)
     }
 }

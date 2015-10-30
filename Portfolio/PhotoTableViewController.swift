@@ -34,18 +34,24 @@ class PhotoTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let downloader = PhotoDownloader()
-        downloader.downloadList { list in
-            if let photos = list {
-                self.photos = photos
-                
-                for photo in self.photos {
-                    downloader.downloadDetail(photo) { detail in
-                        if let completedPhoto = detail, let index = photos.indexOf(photo) {
-                            self.dataController.saveOrUpdatePhoto(completedPhoto)
-                            self.photos[index] = completedPhoto
-                            self.tableView.reloadData()
+        
+        // TODO: Currently it uses core data anytime there is SOMETHING stored.
+        if let photoModels = dataController.getPhotos() {
+            photos = photoModels
+            tableView.reloadData()
+        } else {
+            let downloader = PhotoDownloader()
+            downloader.downloadList { list in
+                if let photos = list {
+                    self.photos = photos
+                    
+                    for photo in self.photos {
+                        downloader.downloadDetail(photo) { detail in
+                            if let completedPhoto = detail, let index = photos.indexOf(photo) {
+                                self.dataController.saveOrUpdatePhoto(completedPhoto)
+                                self.photos[index] = completedPhoto
+                                self.tableView.reloadData()
+                            }
                         }
                     }
                 }
@@ -93,7 +99,7 @@ class PhotoTableViewController: UITableViewController {
     
     // Load and display photo thumbnail.
     // Use cache when possible.
-    func displayThumbnail(cell: PhotoTableViewCell, id: Int32, url: String) {
+    func displayThumbnail(cell: PhotoTableViewCell, id: Int64, url: String) {
         let request = NSURLRequest(URL: NSURL(string: url)!)
         
         if let image = imageCache.imageForRequest(request, withAdditionalIdentifier: thumbnailCacheID) {

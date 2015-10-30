@@ -38,14 +38,12 @@ class DataController {
         }
     }
     
-    // Check whether photo with given ID exists. If yes, update. Otherwise, create new entry.
-    func saveOrUpdatePhoto(photoModel: PhotoModel) {
-        let id = photoModel.id
-        
-        let predicate = NSPredicate(format: "id = %d", id)
+    // MARK: Managed objects
+    // Get photo (managed object) with given ID
+    func getPhotoByID(id: Int64) -> PhotoMO? {
         let request = NSFetchRequest(entityName: "Photos")
-        request.fetchLimit = 1
-        request.predicate = predicate
+        request.predicate = NSPredicate(format: "id = %d", id)
+        request.fetchLimit = 1 // There should be only one photo with given ID
         
         var results: [PhotoMO]?
         do {
@@ -54,19 +52,63 @@ class DataController {
             print("Failed to load photo #\(id).")
         }
         
-        if (results != nil && results!.count > 0 ) {
-            results![0].fill(photoModel)
-        } else {
-            let photoMO = NSEntityDescription.insertNewObjectForEntityForName(
-                "Photos", inManagedObjectContext: managedObjectContext) as! PhotoMO
-            photoMO.fill(photoModel)
-            
-            if let thumbnails = photoModel.thumbnails {
-                for thumbnail in thumbnails {
-                    let thumbnailMO = NSEntityDescription.insertNewObjectForEntityForName(
-                        "Thumbnails", inManagedObjectContext: self.managedObjectContext) as! ThumbnailMO
-                    thumbnailMO.fill(photoModel, thumbnailModel: thumbnail)
-                }
+        if (results != nil && results!.count > 0) {
+            return results![0]
+        }
+        return nil
+    }
+    
+    // Get thumbnail (managed object) with given photo ID and size
+    func getThumbnailByIDAndSize(photoID: Int64, size: Int32) -> ThumbnailMO? {
+        let request = NSFetchRequest(entityName: "Thumbnails")
+        request.predicate = NSPredicate(format: "photoID = %d and #size = %d", photoID, size)
+        request.fetchLimit = 1 // There should be only one thumbnail with given ID and size
+        
+        var results: [ThumbnailMO]?
+        do {
+            results = try managedObjectContext.executeFetchRequest(request) as? [ThumbnailMO]
+        } catch {
+            print("Failed to load thumbnail for photo #\(photoID) with size \(size).")
+        }
+        
+        if (results != nil && results!.count > 0) {
+            return results![0]
+        }
+        return nil
+    }
+    
+    // Get all tumbnails (managed objects) for given photo
+    func getThumbnailsForPhoto(photoMO: PhotoMO) -> [ThumbnailMO]? {
+        let request = NSFetchRequest(entityName: "Thumbnails")
+        request.predicate = NSPredicate(format: "photoID = %d", photoMO.id.longLongValue)
+        
+        var results: [ThumbnailMO]?
+        do {
+            results = try managedObjectContext.executeFetchRequest(request) as? [ThumbnailMO]
+        } catch {
+            print("Failed to load thumbnails for photo #\(photoMO.id).")
+        }
+        
+        return results
+    }
+    
+    // MARK: Models
+    // Check whether photo with given ID exists. If yes, update. Otherwise, create new entry.
+    func saveOrUpdatePhoto(photoModel: PhotoModel) {
+        let id = photoModel.id
+        
+        // Photo data.
+        var photoMO: PhotoMO? = getPhotoByID(id)
+        if photoMO == nil {
+            photoMO = NSEntityDescription.insertNewObjectForEntityForName(
+                "Photos", inManagedObjectContext: managedObjectContext) as? PhotoMO
+        }
+        photoMO?.fill(photoModel)
+        
+        // Thumbnails.
+        if let thumbnails = photoModel.thumbnails {
+            for thumbnail in thumbnails {
+                saveOrUpdateThumbnail(thumbnail, photoModel: photoModel)
             }
         }
         
@@ -75,5 +117,55 @@ class DataController {
         } catch {
             fatalError("Failure to save context: \(error).")
         }
+    }
+    
+    func saveOrUpdateThumbnail(thumbnailModel: ThumbnailModel, photoModel: PhotoModel) {
+        var thumbnailMO: ThumbnailMO? = getThumbnailByIDAndSize(photoModel.id, size: thumbnailModel.size)
+        if thumbnailMO == nil {
+            thumbnailMO = NSEntityDescription.insertNewObjectForEntityForName(
+                "Thumbnails", inManagedObjectContext: managedObjectContext) as? ThumbnailMO
+        }
+        thumbnailMO?.fill(thumbnailModel, photoModel: photoModel)
+        
+        do {
+            try managedObjectContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error).")
+        }
+    }
+    
+    // Get all photos (managed objects)
+    func getPhotos() -> [PhotoModel]? {
+        let request = NSFetchRequest(entityName: "Photos")
+        
+        var results: [PhotoMO]?
+        do {
+            results = try managedObjectContext.executeFetchRequest(request) as? [PhotoMO]
+        } catch {
+            print("Failed to load photos.")
+        }
+        
+        if results != nil {
+            var models = [PhotoModel]()
+            for photoMO in results! {
+                var photoModel = photoMO.getPhotoModel();
+                
+                // Load thumbnails.
+                if let thumbnails = getThumbnailsForPhoto(photoMO) {
+                    photoModel.thumbnails = [ThumbnailModel]()
+                    
+                    for thumbnailMO in thumbnails {
+                        photoModel.thumbnails!.append(thumbnailMO.getThumbnailModel())
+                    }
+                }
+                
+                // Add to photos array.
+                models.append(photoModel)
+            }
+            
+            return models
+        }
+        
+        return nil
     }
 }

@@ -5,7 +5,7 @@
         <attribute name="camera" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="focalLength" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="height" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="iso" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -18,17 +18,15 @@
         <attribute name="shutterSpeed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="taken" optional="YES" attributeType="Date" indexed="YES" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
-        <attribute name="width" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="thumbnails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Thumbnails" inverseName="photo" inverseEntity="Thumbnails" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Thumbnails" representedClassName=".ThumbnailMO" syncable="YES">
         <attribute name="photoID" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="size" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="size" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
-        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photos" inverseName="thumbnails" inverseEntity="Photos" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Photos" positionX="124" positionY="414" width="128" height="330"/>
-        <element name="Thumbnails" positionX="313" positionY="567" width="128" height="105"/>
+        <element name="Photos" positionX="124" positionY="414" width="128" height="315"/>
+        <element name="Thumbnails" positionX="313" positionY="567" width="128" height="90"/>
     </elements>
 </model>

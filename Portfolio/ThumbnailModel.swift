@@ -10,10 +10,10 @@ import Foundation
 
 struct ThumbnailModel {
     
-    var size: Int
+    var size: Int32
     var url: String
     
-    init(size: Int, url: String) {
+    init(size: Int32, url: String) {
         self.size = size
         self.url = url
     }

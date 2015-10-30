@@ -60,8 +60,8 @@ class PhotoDownloader {
                 var photo = self.createPhotoFromJSON(element)
                 
                 // Photo
-                photo.width = json["width"].intValue
-                photo.height = json["height"].intValue
+                photo.width = json["width"].int32Value
+                photo.height = json["height"].int32Value
                 photo.photoUrl = json["image_url"].stringValue
                 // 500px
                 photo.rating = json["rating"].floatValue
@@ -83,7 +83,7 @@ class PhotoDownloader {
             photo.thumbnails = [ThumbnailModel]()
             for (_, element):(String, JSON) in json["photo"]["images"] {
                 let thumbnail = ThumbnailModel(
-                    size: element["size"].intValue,
+                    size: element["size"].int32Value,
                     url: element["url"].stringValue
                 )
                 photo.thumbnails?.append(thumbnail)
@@ -109,7 +109,7 @@ class PhotoDownloader {
     // Create PhotoModel instance from given segment of JSON.
     func createPhotoFromJSON(json: JSON) -> PhotoModel {
         return PhotoModel(
-            id: json["id"].int32Value,
+            id: json["id"].int64Value,
             title: json["name"].stringValue,
             desc: json["description"].stringValue
         )
