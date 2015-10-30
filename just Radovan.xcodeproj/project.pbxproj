@@ -34,14 +34,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0834EE1A1BDE138400A5D413 /* Portfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Portfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0834EE1A1BDE138400A5D413 /* just Radovan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "just Radovan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0834EE1D1BDE138400A5D413 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0834EE1F1BDE138400A5D413 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0834EE221BDE138400A5D413 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0834EE241BDE138400A5D413 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0834EE271BDE138400A5D413 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0834EE291BDE138400A5D413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0834EE2E1BDE138400A5D413 /* PortfolioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PortfolioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0834EE2E1BDE138400A5D413 /* just Radovan.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "just Radovan.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0834EE321BDE138400A5D413 /* PortfolioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTests.swift; sourceTree = "<group>"; };
 		0834EE341BDE138400A5D413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
@@ -89,8 +89,8 @@
 		0834EE1B1BDE138400A5D413 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0834EE1A1BDE138400A5D413 /* Portfolio.app */,
-				0834EE2E1BDE138400A5D413 /* PortfolioTests.xctest */,
+				0834EE1A1BDE138400A5D413 /* just Radovan.app */,
+				0834EE2E1BDE138400A5D413 /* just Radovan.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,9 +176,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0834EE191BDE138400A5D413 /* Portfolio */ = {
+		0834EE191BDE138400A5D413 /* just Radovan */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0834EE371BDE138400A5D413 /* Build configuration list for PBXNativeTarget "Portfolio" */;
+			buildConfigurationList = 0834EE371BDE138400A5D413 /* Build configuration list for PBXNativeTarget "just Radovan" */;
 			buildPhases = (
 				898072C42BA48B6AF483AC3F /* Check Pods Manifest.lock */,
 				0834EE161BDE138400A5D413 /* Sources */,
@@ -191,14 +191,14 @@
 			);
 			dependencies = (
 			);
-			name = Portfolio;
+			name = "just Radovan";
 			productName = Portfolio;
-			productReference = 0834EE1A1BDE138400A5D413 /* Portfolio.app */;
+			productReference = 0834EE1A1BDE138400A5D413 /* just Radovan.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0834EE2D1BDE138400A5D413 /* PortfolioTests */ = {
+		0834EE2D1BDE138400A5D413 /* just RadovanTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0834EE3A1BDE138400A5D413 /* Build configuration list for PBXNativeTarget "PortfolioTests" */;
+			buildConfigurationList = 0834EE3A1BDE138400A5D413 /* Build configuration list for PBXNativeTarget "just RadovanTests" */;
 			buildPhases = (
 				0834EE2A1BDE138400A5D413 /* Sources */,
 				0834EE2B1BDE138400A5D413 /* Frameworks */,
@@ -209,9 +209,9 @@
 			dependencies = (
 				0834EE301BDE138400A5D413 /* PBXTargetDependency */,
 			);
-			name = PortfolioTests;
+			name = "just RadovanTests";
 			productName = PortfolioTests;
-			productReference = 0834EE2E1BDE138400A5D413 /* PortfolioTests.xctest */;
+			productReference = 0834EE2E1BDE138400A5D413 /* just Radovan.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -234,7 +234,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0834EE151BDE138400A5D413 /* Build configuration list for PBXProject "Portfolio" */;
+			buildConfigurationList = 0834EE151BDE138400A5D413 /* Build configuration list for PBXProject "just Radovan" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -247,8 +247,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0834EE191BDE138400A5D413 /* Portfolio */,
-				0834EE2D1BDE138400A5D413 /* PortfolioTests */,
+				0834EE191BDE138400A5D413 /* just Radovan */,
+				0834EE2D1BDE138400A5D413 /* just RadovanTests */,
 			);
 		};
 /* End PBXProject section */
@@ -351,7 +351,7 @@
 /* Begin PBXTargetDependency section */
 		0834EE301BDE138400A5D413 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0834EE191BDE138400A5D413 /* Portfolio */;
+			target = 0834EE191BDE138400A5D413 /* just Radovan */;
 			targetProxy = 0834EE2F1BDE138400A5D413 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -467,7 +467,7 @@
 				INFOPLIST_FILE = Portfolio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.radovan.Portfolio;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "just Radovan";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -482,7 +482,7 @@
 				INFOPLIST_FILE = Portfolio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.radovan.Portfolio;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "just Radovan";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -494,8 +494,8 @@
 				INFOPLIST_FILE = PortfolioTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.radovan.PortfolioTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Portfolio.app/Portfolio";
+				PRODUCT_NAME = "just Radovan";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/just Radovan.app/just Radovan";
 			};
 			name = Debug;
 		};
@@ -506,15 +506,15 @@
 				INFOPLIST_FILE = PortfolioTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.radovan.PortfolioTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Portfolio.app/Portfolio";
+				PRODUCT_NAME = "just Radovan";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/just Radovan.app/just Radovan";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0834EE151BDE138400A5D413 /* Build configuration list for PBXProject "Portfolio" */ = {
+		0834EE151BDE138400A5D413 /* Build configuration list for PBXProject "just Radovan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0834EE351BDE138400A5D413 /* Debug */,
@@ -523,7 +523,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0834EE371BDE138400A5D413 /* Build configuration list for PBXNativeTarget "Portfolio" */ = {
+		0834EE371BDE138400A5D413 /* Build configuration list for PBXNativeTarget "just Radovan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0834EE381BDE138400A5D413 /* Debug */,
@@ -532,7 +532,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0834EE3A1BDE138400A5D413 /* Build configuration list for PBXNativeTarget "PortfolioTests" */ = {
+		0834EE3A1BDE138400A5D413 /* Build configuration list for PBXNativeTarget "just RadovanTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0834EE3B1BDE138400A5D413 /* Debug */,

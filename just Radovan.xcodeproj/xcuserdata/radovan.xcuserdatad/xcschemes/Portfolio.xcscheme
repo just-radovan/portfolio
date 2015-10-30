@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0834EE191BDE138400A5D413"
-               BuildableName = "Portfolio.app"
-               BlueprintName = "Portfolio"
-               ReferencedContainer = "container:Portfolio.xcodeproj">
+               BuildableName = "just Radovan.app"
+               BlueprintName = "just Radovan"
+               ReferencedContainer = "container:just Radovan.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0834EE2D1BDE138400A5D413"
-               BuildableName = "PortfolioTests.xctest"
-               BlueprintName = "PortfolioTests"
-               ReferencedContainer = "container:Portfolio.xcodeproj">
+               BuildableName = "just Radovan.xctest"
+               BlueprintName = "just RadovanTests"
+               ReferencedContainer = "container:just Radovan.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0834EE191BDE138400A5D413"
-            BuildableName = "Portfolio.app"
-            BlueprintName = "Portfolio"
-            ReferencedContainer = "container:Portfolio.xcodeproj">
+            BuildableName = "just Radovan.app"
+            BlueprintName = "just Radovan"
+            ReferencedContainer = "container:just Radovan.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0834EE191BDE138400A5D413"
-            BuildableName = "Portfolio.app"
-            BlueprintName = "Portfolio"
-            ReferencedContainer = "container:Portfolio.xcodeproj">
+            BuildableName = "just Radovan.app"
+            BlueprintName = "just Radovan"
+            ReferencedContainer = "container:just Radovan.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0834EE191BDE138400A5D413"
-            BuildableName = "Portfolio.app"
-            BlueprintName = "Portfolio"
-            ReferencedContainer = "container:Portfolio.xcodeproj">
+            BuildableName = "just Radovan.app"
+            BlueprintName = "just Radovan"
+            ReferencedContainer = "container:just Radovan.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
