@@ -3,31 +3,35 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Latest-->
         <scene sceneID="NwT-hv-raJ">
             <objects>
-                <tableViewController id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="Portfolio" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="9AR-nt-vHQ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PhotoTableViewCell" rowHeight="90" id="cnv-pQ-TiC" customClass="PhotoTableViewCell" customModule="Portfolio" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PhotoTableViewCell" rowHeight="90" id="cnv-pQ-TiC" customClass="PhotoTableViewCell" customModule="just_Radovan" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cnv-pQ-TiC" id="Fv5-7x-7WR">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="89.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6SQ-bL-m2c">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6SQ-bL-m2c">
                                             <rect key="frame" x="0.0" y="0.0" width="88" height="89.5"/>
                                             <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="6SQ-bL-m2c" secondAttribute="height" multiplier="88:89" id="u7A-je-UBI"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zqf-Qh-wfa">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zqf-Qh-wfa">
                                             <rect key="frame" x="96" y="8" width="496" height="30"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="24"/>
@@ -50,12 +54,17 @@
                                     </subviews>
                                     <animations/>
                                     <constraints>
-                                        <constraint firstItem="Zqf-Qh-wfa" firstAttribute="leading" secondItem="6SQ-bL-m2c" secondAttribute="trailing" constant="8" id="A1P-Vl-o3Q"/>
-                                        <constraint firstItem="DIm-NR-HQH" firstAttribute="leading" secondItem="6SQ-bL-m2c" secondAttribute="trailing" constant="8" id="JOK-UL-hdj"/>
-                                        <constraint firstItem="wQI-WJ-ard" firstAttribute="leading" secondItem="DIm-NR-HQH" secondAttribute="trailing" constant="8" id="SZI-r6-cgo"/>
-                                        <constraint firstItem="Zqf-Qh-wfa" firstAttribute="trailing" secondItem="Fv5-7x-7WR" secondAttribute="trailingMargin" constant="8" id="Uhb-9I-LeT"/>
-                                        <constraint firstItem="DIm-NR-HQH" firstAttribute="top" secondItem="Zqf-Qh-wfa" secondAttribute="bottom" constant="8" id="W0y-Al-tNi"/>
-                                        <constraint firstItem="wQI-WJ-ard" firstAttribute="trailing" secondItem="Fv5-7x-7WR" secondAttribute="trailingMargin" constant="8" id="keZ-hX-LPa"/>
+                                        <constraint firstItem="Zqf-Qh-wfa" firstAttribute="top" secondItem="Fv5-7x-7WR" secondAttribute="topMargin" id="2pS-xJ-b7z"/>
+                                        <constraint firstItem="wQI-WJ-ard" firstAttribute="trailing" secondItem="Fv5-7x-7WR" secondAttribute="trailingMargin" id="9mW-xA-Ypz"/>
+                                        <constraint firstItem="wQI-WJ-ard" firstAttribute="leading" secondItem="DIm-NR-HQH" secondAttribute="trailing" constant="8" id="DPB-B6-gc1"/>
+                                        <constraint firstItem="wQI-WJ-ard" firstAttribute="top" secondItem="Zqf-Qh-wfa" secondAttribute="bottom" constant="8" id="LF3-lp-kmx"/>
+                                        <constraint firstItem="Zqf-Qh-wfa" firstAttribute="leading" secondItem="6SQ-bL-m2c" secondAttribute="trailing" constant="8" id="Xws-oF-4Qb"/>
+                                        <constraint firstItem="Zqf-Qh-wfa" firstAttribute="trailing" secondItem="Fv5-7x-7WR" secondAttribute="trailingMargin" constant="8" id="cnO-8V-Ifd"/>
+                                        <constraint firstItem="DIm-NR-HQH" firstAttribute="leading" secondItem="6SQ-bL-m2c" secondAttribute="trailing" constant="8" id="dnc-Rr-7ov"/>
+                                        <constraint firstItem="6SQ-bL-m2c" firstAttribute="top" secondItem="Fv5-7x-7WR" secondAttribute="topMargin" id="gel-xs-BRy"/>
+                                        <constraint firstItem="6SQ-bL-m2c" firstAttribute="leading" secondItem="Fv5-7x-7WR" secondAttribute="leadingMargin" id="oeo-3B-1hu"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="6SQ-bL-m2c" secondAttribute="bottom" id="rzQ-fK-YNS"/>
+                                        <constraint firstItem="DIm-NR-HQH" firstAttribute="top" secondItem="Zqf-Qh-wfa" secondAttribute="bottom" constant="8" id="x5e-7c-Pvv"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <animations/>

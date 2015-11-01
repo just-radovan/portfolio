@@ -34,12 +34,13 @@ class PhotoTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // TODO: Currently it uses core data anytime there is SOMETHING stored.
+  
         if let photoModels = dataController.getPhotos() {
             photos = photoModels
             tableView.reloadData()
-        } else {
+        }
+        
+        if (photos.count == 0) {
             let downloader = PhotoDownloader()
             downloader.downloadList { list in
                 if let photos = list {
