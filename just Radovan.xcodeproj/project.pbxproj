@@ -24,6 +24,7 @@
 		08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */; };
 		08B724D51BDF64E000654E04 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D41BDF64E000654E04 /* Config.swift */; };
 		08B724D91BDF6ADF00654E04 /* Config.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08B724D81BDF6ADF00654E04 /* Config.swift.txt */; };
+		08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */; };
 		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
 		08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */; };
 		75F315D118E2BD65C55AE2E3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CAAAE33C57B38F9193831BA /* Pods.framework */; };
@@ -61,6 +62,7 @@
 		08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
 		08B724D41BDF64E000654E04 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		08B724D81BDF6ADF00654E04 /* Config.swift.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Config.swift.txt; sourceTree = "<group>"; };
+		08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
 		0CAAAE33C57B38F9193831BA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 			children = (
 				08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */,
 				08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */,
+				08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */,
 				0834EE1F1BDE138400A5D413 /* ViewController.swift */,
 			);
 			name = UI;
@@ -356,6 +359,7 @@
 				08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */,
 				08AC6ED41BDE1C5500DBEBEC /* ThumbnailModel.swift in Sources */,
 				0834006D1BE37C93007F096D /* PhotoMO+CoreDataProperties.swift in Sources */,
+				08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */,
 				0834006B1BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift in Sources */,
 				08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */,
 				08AC6ED21BDE191300DBEBEC /* PhotoModel.swift in Sources */,

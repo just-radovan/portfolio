@@ -88,6 +88,16 @@ class PhotoTableViewController: UITableViewController {
         return cell
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailViewController = segue.destinationViewController as! PhotoDetailViewController
+        if let selectedCell = sender as? PhotoTableViewCell {
+            let indexPath = tableView.indexPathForCell(selectedCell)!
+            let selectedPhoto = photos[indexPath.row]
+            
+            detailViewController.photo = selectedPhoto
+        }
+    }
+    
     // Load and display photos.
     func loadPhotos() {
         if let photoModels = dataController.getPhotos() {
@@ -104,9 +114,9 @@ class PhotoTableViewController: UITableViewController {
         let filter = AspectScaledToFillSizeFilter(size: size)
         
         // Load & store image.
-        imageDownloader.downloadImage(URLRequest: request) { response in
+        imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
             if let image: UIImage = response.result.value {
-                cell.thumbnailView.image = filter.filter(image)
+                cell.thumbnailView.image = image
             }
         }
     }
