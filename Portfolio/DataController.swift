@@ -39,6 +39,20 @@ class DataController {
     }
     
     // MARK: Managed objects
+    func photoExists(id: Int64) -> Bool {
+        let request = NSFetchRequest(entityName: "Photos")
+        request.predicate = NSPredicate(format: "id = %d", id)
+        request.fetchLimit = 1 // There should be only one photo with given ID
+        
+        var error: NSError?
+        let items = managedObjectContext.countForFetchRequest(request, error: &error) as Int
+        if (error != nil) {
+            print("Failed to check whether photo #\(id) exists.")
+        }
+        
+        return items > 0
+    }
+    
     // Get photo (managed object) with given ID
     func getPhotoByID(id: Int64) -> PhotoMO? {
         let request = NSFetchRequest(entityName: "Photos")
@@ -119,6 +133,7 @@ class DataController {
         }
     }
     
+    // Check whether thumbnail with given photo ID and size exists. If yes, update. Otherwise, create new entry.
     func saveOrUpdateThumbnail(thumbnailModel: ThumbnailModel, photoModel: PhotoModel) {
         var thumbnailMO: ThumbnailMO? = getThumbnailByIDAndSize(photoModel.id, size: thumbnailModel.size)
         if thumbnailMO == nil {

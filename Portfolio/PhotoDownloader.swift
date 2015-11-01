@@ -30,21 +30,31 @@ class PhotoDownloader {
     func downloadAll(completion: (downloadedPhotos: Int) -> Void) {
         let downloader = PhotoDownloader()
         
-        var photosCount = 0
-        var photosDetailed = 0
+        var checked = 0 // Checked photos.
+        var saved = 0 // Newly saved photos.
         
-        downloader.downloadList { list in
-            if let photos = list {
-                photosCount = photos.count
-                
-                for photo in photos {
+        downloader.downloadList { photos in
+            if photos == nil || photos!.count == 0 {
+                return
+            }
+            
+            for photo in photos! {
+                if self.dataController.photoExists(photo.id) {
+                    if (checked >= photos!.count) {
+                        completion(downloadedPhotos: saved)
+                    }
+                    
+                    checked += 1
+                } else {
                     downloader.downloadDetail(photo) { detail in
                         if let completedPhoto = detail {
                             self.dataController.saveOrUpdatePhoto(completedPhoto)
                             
-                            photosDetailed += 1
-                            if (photosDetailed >= photosCount) {
-                                completion(downloadedPhotos: photosCount)
+                            saved += 1
+                            checked += 1
+                            
+                            if (checked >= photos!.count) {
+                                completion(downloadedPhotos: saved)
                             }
                         }
                     }
@@ -64,6 +74,7 @@ class PhotoDownloader {
         let params = [
             "feature": "user",
             "username": "just_radovan",
+            "sort": "taken_at",
             "page": String(page),
             "consumer_key": Config.consumerKey
         ]
@@ -71,15 +82,27 @@ class PhotoDownloader {
         Alamofire.request(.GET, photoBaseUrl, parameters: params).responseString { response in
             if let data = response.result.value {
                 if let json = self.getJSONFromString(data) {
+                    // Get basic data and list.
+                    let photosOnPage = json["photos"].count
                     let totalPages = json["total_pages"].intValue
-                    print("Page: \(page) of \(totalPages)")
                     
+                    // Append photos from list to all.
                     let list = self.parseListJSON(json)
                     photos.appendContentsOf(list)
                     
-                    if (page < totalPages) { // If there is another page, download it.
+                    // Check how many photos are new.
+                    var photosExists = 0
+                    for photo in list {
+                        if self.dataController.photoExists(photo.id) {
+                            photosExists += 1
+                        }
+                    }
+                    
+                    if (page < totalPages && photosOnPage > photosExists) {
+                        // If there is another page with new photos, download it.
                         self.downloadList(page + 1, photos: photos, completion: completion)
-                    } else { // Everything downloaded, send the result.
+                    } else {
+                        // Everything downloaded, send the result.
                         completion(result: photos)
                     }
                 }
@@ -155,10 +178,10 @@ class PhotoDownloader {
         // Geolocation
         photo.latitude = json["photo"]["latitude"].doubleValue
         photo.longitude = json["photo"]["longitude"].doubleValue
-
+        
         return photo
     }
-
+    
     // Create PhotoModel instance from given segment of JSON.
     func createPhotoFromJSON(json: JSON) -> PhotoModel {
         return PhotoModel(

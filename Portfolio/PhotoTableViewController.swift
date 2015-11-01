@@ -39,7 +39,7 @@ class PhotoTableViewController: UITableViewController {
         
         let downloader = PhotoDownloader()
         downloader.downloadAll() { downloadedPhotos in
-            print("Photos downloaded: \(downloadedPhotos)")
+            print("Photos saved: \(downloadedPhotos)")
             
             if (downloadedPhotos > 0) {
                 self.loadPhotos()
