@@ -18,11 +18,39 @@ extension NSURLSessionTask {
 
 class PhotoDownloader {
     
+    let dataController = DataController()
     let dateFormatter = NSDateFormatter()
     let photoBaseUrl = "https://api.500px.com/v1/photos"
     
     init() {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ" // 2015-08-11T18:20:33-04:00
+    }
+    
+    // Download all new photos and it's details.
+    func downloadAll(completion: (downloadedPhotos: Int) -> Void) {
+        let downloader = PhotoDownloader()
+        
+        var photosCount = 0
+        var photosDetailed = 0
+        
+        downloader.downloadList { list in
+            if let photos = list {
+                photosCount = photos.count
+                
+                for photo in photos {
+                    downloader.downloadDetail(photo) { detail in
+                        if let completedPhoto = detail {
+                            self.dataController.saveOrUpdatePhoto(completedPhoto)
+                            
+                            photosDetailed += 1
+                            if (photosDetailed >= photosCount) {
+                                completion(downloadedPhotos: photosCount)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     // Download photo list.
@@ -31,6 +59,7 @@ class PhotoDownloader {
         downloadList(1, photos: photos, completion: completion)
     }
     
+    // Download photo list. Add the page to given list of phot models.
     func downloadList(page: Int, var photos: [PhotoModel], completion: (result: [PhotoModel]?) -> Void) {
         let params = [
             "feature": "user",
@@ -48,9 +77,9 @@ class PhotoDownloader {
                     let list = self.parseListJSON(json)
                     photos.appendContentsOf(list)
                     
-                    if (page < totalPages) {
+                    if (page < totalPages) { // If there is another page, download it.
                         self.downloadList(page + 1, photos: photos, completion: completion)
-                    } else {
+                    } else { // Everything downloaded, send the result.
                         completion(result: photos)
                     }
                 }
@@ -60,7 +89,7 @@ class PhotoDownloader {
     
     // Download photo detail.
     func downloadDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
-        let params = ["image_size": "2", "consumer_key": Config.consumerKey]
+        let params = ["image_size": "4", "consumer_key": Config.consumerKey]
         
         Alamofire.request(.GET, "\(photoBaseUrl)/\(photo.id)", parameters: params).responseString { response in
             if let data = response.result.value {
@@ -81,7 +110,7 @@ class PhotoDownloader {
         return nil
     }
     
-    // Parse downloaded data into array of PhotoModels.
+    // Parse downloaded JSON into array of PhotoModels.
     func parseListJSON(json: JSON) -> [PhotoModel] {
         var photos = [PhotoModel]()
         
@@ -102,7 +131,7 @@ class PhotoDownloader {
         return photos
     }
     
-    // Parse downloaded data into given PhotoModel.
+    // Parse downloaded JSON into given PhotoModel.
     func parseDetailJSON(json: JSON, var photo: PhotoModel) -> PhotoModel {
         // Thumbnails
         photo.thumbnails = [ThumbnailModel]()

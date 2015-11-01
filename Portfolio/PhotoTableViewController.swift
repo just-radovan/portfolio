@@ -35,27 +35,14 @@ class PhotoTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
   
-        if let photoModels = dataController.getPhotos() {
-            photos = photoModels
-            tableView.reloadData()
-        }
+        loadPhotos()
         
-        if (photos.count == 0) {
-            let downloader = PhotoDownloader()
-            downloader.downloadList { list in
-                if let photos = list {
-                    self.photos = photos
-                    
-                    for photo in self.photos {
-                        downloader.downloadDetail(photo) { detail in
-                            if let completedPhoto = detail, let index = photos.indexOf(photo) {
-                                self.dataController.saveOrUpdatePhoto(completedPhoto)
-                                self.photos[index] = completedPhoto
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
-                }
+        let downloader = PhotoDownloader()
+        downloader.downloadAll() { downloadedPhotos in
+            print("Photos downloaded: \(downloadedPhotos)")
+            
+            if (downloadedPhotos > 0) {
+                self.loadPhotos()
             }
         }
     }
@@ -98,6 +85,14 @@ class PhotoTableViewController: UITableViewController {
         return cell
     }
     
+    // Load and display photos.
+    func loadPhotos() {
+        if let photoModels = dataController.getPhotos() {
+            photos = photoModels
+            tableView.reloadData()
+        }
+    }
+    
     // Load and display photo thumbnail.
     // Use cache when possible.
     func displayThumbnail(cell: PhotoTableViewCell, id: Int64, url: String) {
@@ -108,7 +103,7 @@ class PhotoTableViewController: UITableViewController {
             cell.thumbnailView.image = image
         } else {
             // Load & store image.
-            let size = CGSize(width: 90.0, height: 90.0)
+            let size = CGSize(width: 160.0, height: 90.0)
             let filter = AspectScaledToFillSizeFilter(size: size)
             
             imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
