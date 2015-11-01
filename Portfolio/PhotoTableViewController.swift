@@ -12,24 +12,27 @@ import AlamofireImage
 class PhotoTableViewController: UITableViewController {
     
     let dateFormatter = NSDateFormatter()
-    let imageDownloader = ImageDownloader(
-        configuration: ImageDownloader.defaultURLSessionConfiguration(),
-        downloadPrioritization: .FIFO,
-        maximumActiveDownloads: 4,
-        imageCache: AutoPurgingImageCache()
-    )
-    let imageCache = AutoPurgingImageCache(
-        memoryCapacity: 100 * 1024 * 1024,
-        preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
-    )
     let thumbnailCacheID = "thumbnail"
     let dataController = DataController()
+    var imageCache: AutoPurgingImageCache
+    var imageDownloader: ImageDownloader
     var photos = [PhotoModel]()
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        imageCache = AutoPurgingImageCache(
+            memoryCapacity: 100 * 1024 * 1024,
+            preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
+        )
+        imageDownloader = ImageDownloader(
+            configuration: ImageDownloader.defaultURLSessionConfiguration(),
+            downloadPrioritization: .LIFO,
+            maximumActiveDownloads: 4,
+            imageCache: imageCache
+        )
         
         dateFormatter.dateFormat = "dd.MM.yyyy"
+        
+        super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
@@ -97,25 +100,13 @@ class PhotoTableViewController: UITableViewController {
     // Use cache when possible.
     func displayThumbnail(cell: PhotoTableViewCell, id: Int64, url: String) {
         let request = NSURLRequest(URL: NSURL(string: url)!)
+        let size = CGSize(width: 160.0, height: 90.0)
+        let filter = AspectScaledToFillSizeFilter(size: size)
         
-        if let image = imageCache.imageForRequest(request, withAdditionalIdentifier: thumbnailCacheID) {
-            // Use image from cache.
-            cell.thumbnailView.image = image
-        } else {
-            // Load & store image.
-            let size = CGSize(width: 160.0, height: 90.0)
-            let filter = AspectScaledToFillSizeFilter(size: size)
-            
-            imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
-                if let image = response.result.value {
-                    self.imageCache.addImage(
-                        image,
-                        forRequest: request,
-                        withAdditionalIdentifier: self.thumbnailCacheID
-                    )
-                    
-                    cell.thumbnailView.image = image
-                }
+        // Load & store image.
+        imageDownloader.downloadImage(URLRequest: request) { response in
+            if let image: UIImage = response.result.value {
+                cell.thumbnailView.image = filter.filter(image)
             }
         }
     }

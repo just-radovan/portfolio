@@ -11,7 +11,7 @@
         <scene sceneID="NwT-hv-raJ">
             <objects>
                 <tableViewController id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="9AR-nt-vHQ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="91" sectionHeaderHeight="28" sectionFooterHeight="28" id="9AR-nt-vHQ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
@@ -25,10 +25,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6SQ-bL-m2c">
-                                            <rect key="frame" x="0.0" y="0.0" width="160" height="89.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="90"/>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="6SQ-bL-m2c" secondAttribute="height" multiplier="160:89" id="USv-Hg-DXE"/>
+                                                <constraint firstAttribute="width" secondItem="6SQ-bL-m2c" secondAttribute="height" multiplier="16:9" id="EWO-y7-1KO"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zqf-Qh-wfa">
