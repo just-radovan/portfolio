@@ -41,14 +41,14 @@
                                             <rect key="frame" x="168" y="46" width="145" height="15"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DIm-NR-HQH">
                                             <rect key="frame" x="168" y="60" width="424" height="21"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -100,20 +100,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NpM-7C-Au0">
-                                <rect key="frame" x="0.0" y="64" width="600" height="337"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NpM-7C-Au0">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="337"/>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="NpM-7C-Au0" secondAttribute="height" multiplier="600:337" id="mZG-Eu-y77"/>
-                                </constraints>
                             </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="NpM-7C-Au0" firstAttribute="leading" secondItem="ayM-c5-nw7" secondAttribute="leadingMargin" constant="-20" id="9Xd-Cf-Nts"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="NpM-7C-Au0" secondAttribute="trailing" constant="-20" id="k4S-VB-ceT"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Photo" id="ZTw-1n-zxJ"/>
                     <connections>
@@ -122,7 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V9q-4L-o5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1772" y="337"/>
+            <point key="canvasLocation" x="1101" y="315"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AMb-WH-5LA">
@@ -143,27 +136,5 @@
             </objects>
             <point key="canvasLocation" x="-274" y="315"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="atr-pf-JdJ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fHP-pG-sHW" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cxx-RT-5oJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="HbA-Lu-Cez" kind="relationship" relationship="rootViewController" id="bBm-j3-C1Q"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9qF-y6-t0S" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1054" y="701"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="bBm-j3-C1Q"/>
-    </inferredMetricsTieBreakers>
 </document>

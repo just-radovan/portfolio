@@ -46,18 +46,15 @@ class PhotoDownloader {
                     
                     checked += 1
                 } else {
-                    downloader.downloadDetail(photo) { detail in
-                        if let completedPhoto = detail {
-                            self.dataController.saveOrUpdatePhoto(completedPhoto)
-                            
-                            saved += 1
-                            checked += 1
-                            
-                            if (checked >= photos!.count) {
-                                completion(downloadedPhotos: saved)
-                            }
-                        }
+                    self.dataController.saveOrUpdatePhoto(photo)
+                    
+                    saved += 1
+                    checked += 1
+                    
+                    if (checked >= photos!.count) {
+                        completion(downloadedPhotos: saved)
                     }
+                    
                 }
             }
         }
@@ -75,6 +72,8 @@ class PhotoDownloader {
             "feature": "user",
             "username": "just_radovan",
             "sort": "taken_at",
+            "image_size[0]": String(ThumbnailSizeEnum.THUMB.rawValue),
+            "image_size[1]": String(ThumbnailSizeEnum.FULL.rawValue),
             "page": String(page),
             "consumer_key": Config.consumerKey
         ]
@@ -84,7 +83,10 @@ class PhotoDownloader {
                 if let json = self.getJSONFromString(data) {
                     // Get basic data and list.
                     let photosOnPage = json["photos"].count
+                    let currentPage = json["current_page"].intValue
                     let totalPages = json["total_pages"].intValue
+                    
+                    print("Obtained list .. page \(currentPage) of \(totalPages) with \(photosOnPage) photos.")
                     
                     // Append photos from list to all.
                     let list = self.parseListJSON(json)
@@ -106,20 +108,8 @@ class PhotoDownloader {
                         completion(result: photos)
                     }
                 }
-            }
-        }
-    }
-    
-    // Download photo detail.
-    func downloadDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
-        let params = ["image_size": "4", "consumer_key": Config.consumerKey]
-        
-        Alamofire.request(.GET, "\(photoBaseUrl)/\(photo.id)", parameters: params).responseString { response in
-            if let data = response.result.value {
-                if let json = self.getJSONFromString(data) {
-                    let photo = self.parseDetailJSON(json, photo: photo)
-                    completion(result: photo)
-                }
+            } else {
+                print("No response from 500px server.")
             }
         }
     }
@@ -138,56 +128,46 @@ class PhotoDownloader {
         var photos = [PhotoModel]()
         
         for (_, element):(String, JSON) in json["photos"] {
-            var photo = self.createPhotoFromJSON(element)
+            var photo = PhotoModel(
+                id: element["id"].int64Value,
+                title: element["name"].stringValue,
+                desc: element["description"].stringValue
+            )
             
             // Photo
-            photo.width = json["width"].int32Value
-            photo.height = json["height"].int32Value
-            photo.photoUrl = json["image_url"].stringValue
+            photo.width = element["width"].int32Value
+            photo.height = element["height"].int32Value
+            photo.photoUrl = element["image_url"].stringValue
             // 500px
-            photo.rating = json["rating"].floatValue
-            photo.nsfw = json["nsfw"].boolValue
+            photo.rating = element["rating"].floatValue
+            photo.ratingHigh = element["highest_rating"].floatValue
+            photo.nsfw = element["nsfw"].boolValue
+            // Thumbnails
+            photo.thumbnails = [ThumbnailModel]()
+            for (_, elementThumbnail):(String, JSON) in json["images"] {
+                print("Thumbnail for #\(photo.id): \(elementThumbnail["size"].int32Value)")
+                
+                let thumbnail = ThumbnailModel(
+                    size: elementThumbnail["size"].int32Value,
+                    url: elementThumbnail["https_url"].stringValue
+                )
+                photo.thumbnails?.append(thumbnail)
+            }
+            // EXIF
+            photo.taken = dateFormatter.dateFromString(element["taken_at"].stringValue)
+            photo.focalLength = element["focal_length"].stringValue
+            photo.shutterSpeed = element["shutter_speed"].stringValue
+            photo.aperture = element["aperture"].stringValue
+            photo.iso = element["iso"].stringValue
+            photo.camera = element["camera"].stringValue
+            photo.lens = element["lens"].stringValue
+            // Geolocation
+            photo.latitude = element["latitude"].doubleValue
+            photo.longitude = element["longitude"].doubleValue
             
             photos.append(photo)
         }
         
         return photos
-    }
-    
-    // Parse downloaded JSON into given PhotoModel.
-    func parseDetailJSON(json: JSON, var photo: PhotoModel) -> PhotoModel {
-        // Thumbnails
-        photo.thumbnails = [ThumbnailModel]()
-        for (_, element):(String, JSON) in json["photo"]["images"] {
-            let thumbnail = ThumbnailModel(
-                size: element["size"].int32Value,
-                url: element["url"].stringValue
-            )
-            photo.thumbnails?.append(thumbnail)
-        }
-        // 500px
-        photo.ratingHigh = json["photo"]["highest_rating"].floatValue
-        // EXIF
-        photo.taken = dateFormatter.dateFromString(json["photo"]["taken_at"].stringValue)
-        photo.focalLength = json["photo"]["focal_length"].stringValue
-        photo.shutterSpeed = json["photo"]["shutter_speed"].stringValue
-        photo.aperture = json["photo"]["aperture"].stringValue
-        photo.iso = json["photo"]["iso"].stringValue
-        photo.camera = json["photo"]["camera"].stringValue
-        photo.lens = json["photo"]["lens"].stringValue
-        // Geolocation
-        photo.latitude = json["photo"]["latitude"].doubleValue
-        photo.longitude = json["photo"]["longitude"].doubleValue
-        
-        return photo
-    }
-    
-    // Create PhotoModel instance from given segment of JSON.
-    func createPhotoFromJSON(json: JSON) -> PhotoModel {
-        return PhotoModel(
-            id: json["id"].int64Value,
-            title: json["name"].stringValue,
-            desc: json["description"].stringValue
-        )
     }
 }

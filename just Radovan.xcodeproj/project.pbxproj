@@ -19,6 +19,7 @@
 		0834EE281BDE138400A5D413 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0834EE261BDE138400A5D413 /* LaunchScreen.storyboard */; };
 		0834EE331BDE138400A5D413 /* PortfolioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0834EE321BDE138400A5D413 /* PortfolioTests.swift */; };
 		08463C311BE3CC5C006A9DEF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08463C301BE3CC5C006A9DEF /* DataController.swift */; };
+		088EDCEB1BE7EACD006311D3 /* ThumbnailSizeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */; };
 		08AC6ED21BDE191300DBEBEC /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */; };
 		08AC6ED41BDE1C5500DBEBEC /* ThumbnailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC6ED31BDE1C5500DBEBEC /* ThumbnailModel.swift */; };
 		08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */; };
@@ -57,6 +58,7 @@
 		0834EE321BDE138400A5D413 /* PortfolioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTests.swift; sourceTree = "<group>"; };
 		0834EE341BDE138400A5D413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08463C301BE3CC5C006A9DEF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailSizeEnum.swift; sourceTree = "<group>"; };
 		08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		08AC6ED31BDE1C5500DBEBEC /* ThumbnailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailModel.swift; sourceTree = "<group>"; };
 		08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */,
 				08AC6ED31BDE1C5500DBEBEC /* ThumbnailModel.swift */,
+				088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */,
 				0834006B1BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift in Sources */,
 				08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */,
+				088EDCEB1BE7EACD006311D3 /* ThumbnailSizeEnum.swift in Sources */,
 				08AC6ED21BDE191300DBEBEC /* PhotoModel.swift in Sources */,
 				083400661BE3785C007F096D /* PhotosCoreData.xcdatamodeld in Sources */,
 				08463C311BE3CC5C006A9DEF /* DataController.swift in Sources */,
