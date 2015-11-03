@@ -12,6 +12,7 @@ import AlamofireImage
 
 class PhotoDetailViewController: UIViewController {
 
+    let locationManager: CLLocationManager!
     let dataController = DataController()
     var photo: PhotoModel?
     var imageCache: AutoPurgingImageCache
@@ -32,6 +33,7 @@ class PhotoDetailViewController: UIViewController {
             maximumActiveDownloads: 4,
             imageCache: imageCache
         )
+        locationManager = CLLocationManager()
         
         super.init(coder: aDecoder)
     }
@@ -49,7 +51,8 @@ class PhotoDetailViewController: UIViewController {
             
             // Initialize map
             if let latitude = photo.latitude, longitude = photo.longitude {
-                centerMapOnLocation(CLLocation(latitude: latitude, longitude: longitude))
+                zoomMap(latitude, longitude: longitude)
+                addAnnotationToMap(photo.title, latitude: latitude, longitude: longitude)
             }
             
             // Photo
@@ -66,16 +69,35 @@ class PhotoDetailViewController: UIViewController {
                 }
             }
         }
+        
+        // Request phones' location
+        let locationState = CLLocationManager.authorizationStatus()
+        if (locationState == CLAuthorizationStatus.NotDetermined){
+            locationManager.requestWhenInUseAuthorization()
+        } else {
+            mapView.showsUserLocation = true
+        }
     }
     
     // Center map to given location.
-    func centerMapOnLocation(location: CLLocation) {
-        let radius: CLLocationDistance = 1000
+    func zoomMap(latitude: Double, longitude: Double) {
+        let center: CLLocation = CLLocation(latitude: latitude, longitude: longitude)
+        let radius: CLLocationDistance = 500
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(
-            location.coordinate,
+            center.coordinate,
             radius * 2.0,
             radius * 2.0
         )
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    // Add annotation to map
+    func addAnnotationToMap(title: String, latitude: Double, longitude: Double) {
+        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = title
+        
+        mapView.addAnnotation(annotation)
     }
 }
