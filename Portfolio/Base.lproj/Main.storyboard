@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Latest-->
+        <!--Portfolio-->
         <scene sceneID="NwT-hv-raJ">
             <objects>
                 <tableViewController id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
@@ -73,7 +73,7 @@
                                     <outlet property="takenLabel" destination="wQI-WJ-ard" id="5dW-Ci-MEZ"/>
                                     <outlet property="thumbnailView" destination="6SQ-bL-m2c" id="ac7-2m-J0h"/>
                                     <outlet property="titleLabel" destination="Zqf-Qh-wfa" id="psW-tX-XYc"/>
-                                    <segue destination="HbA-Lu-Cez" kind="showDetail" identifier="Show Detail" id="2oh-bL-E1c"/>
+                                    <segue destination="HbA-Lu-Cez" kind="show" identifier="Show Detail" id="TBu-Bp-cuE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -82,7 +82,7 @@
                             <outlet property="delegate" destination="j4h-Fd-3B2" id="O4l-Uq-YQB"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Latest" id="M74-DI-Vnq"/>
+                    <navigationItem key="navigationItem" title="Portfolio" id="M74-DI-Vnq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qAf-uM-loo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -100,22 +100,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NpM-7C-Au0">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="337"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GRL-ld-apb">
+                                <rect key="frame" x="0.0" y="64" width="600" height="337"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="GRL-ld-apb" secondAttribute="height" multiplier="600:337" id="qFE-3t-9m5"/>
+                                </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8hd-Mu-hw2">
+                                <rect key="frame" x="270" y="409" width="60.5" height="50.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="42"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XwJ-E6-YE3">
+                                <rect key="frame" x="0.0" y="467" width="600" height="133"/>
+                                <animations/>
+                            </mapView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uu9-wE-di5" firstAttribute="top" secondItem="XwJ-E6-YE3" secondAttribute="bottom" id="4JQ-dO-CRo"/>
+                            <constraint firstItem="GRL-ld-apb" firstAttribute="leading" secondItem="ayM-c5-nw7" secondAttribute="leading" id="9yb-Zh-PHR"/>
+                            <constraint firstItem="8hd-Mu-hw2" firstAttribute="top" secondItem="GRL-ld-apb" secondAttribute="bottom" constant="8" id="F6J-oi-XKA"/>
+                            <constraint firstItem="8hd-Mu-hw2" firstAttribute="centerX" secondItem="ayM-c5-nw7" secondAttribute="centerX" id="Lc7-dn-kAV"/>
+                            <constraint firstItem="GRL-ld-apb" firstAttribute="top" secondItem="4Qq-60-LVD" secondAttribute="bottom" id="St1-KB-Muz"/>
+                            <constraint firstItem="XwJ-E6-YE3" firstAttribute="top" secondItem="8hd-Mu-hw2" secondAttribute="bottom" constant="7.5" id="ULb-nn-uan"/>
+                            <constraint firstAttribute="trailing" secondItem="XwJ-E6-YE3" secondAttribute="trailing" id="fkd-IH-pr9"/>
+                            <constraint firstAttribute="trailing" secondItem="GRL-ld-apb" secondAttribute="trailing" id="nWW-QP-r1T"/>
+                            <constraint firstItem="XwJ-E6-YE3" firstAttribute="leading" secondItem="ayM-c5-nw7" secondAttribute="leading" id="z41-iG-2b6"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Photo" id="ZTw-1n-zxJ"/>
                     <connections>
-                        <outlet property="photoImageView" destination="NpM-7C-Au0" id="q4c-DS-NuZ"/>
+                        <outlet property="mapView" destination="XwJ-E6-YE3" id="XIc-Y0-LdT"/>
+                        <outlet property="photoImageView" destination="GRL-ld-apb" id="nBj-Ld-LBY"/>
+                        <outlet property="ratingLabel" destination="8hd-Mu-hw2" id="LQl-17-aZU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V9q-4L-o5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1101" y="315"/>
+            <point key="canvasLocation" x="1081" y="315"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AMb-WH-5LA">
