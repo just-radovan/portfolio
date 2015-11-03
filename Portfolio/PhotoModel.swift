@@ -41,6 +41,19 @@ struct PhotoModel {
         self.title = title
         self.desc = desc
     }
+    
+    // Find thumbnail for given size.
+    func getThumbnailForSize(size: ThumbnailSizeEnum) -> ThumbnailModel? {
+        if let thumbnails = thumbnails {
+            for thumbnail in thumbnails {
+                if thumbnail.size == size.rawValue {
+                    return thumbnail
+                }
+            }
+        }
+        
+        return nil
+    }
 }
 
 extension PhotoModel: Equatable {}

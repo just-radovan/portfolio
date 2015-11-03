@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ThumbnailSizeEnum: Int {
+enum ThumbnailSizeEnum: Int32 {
     
     case THUMB = 20 // Thumbnail
     case FULL = 1080 // Photo detail

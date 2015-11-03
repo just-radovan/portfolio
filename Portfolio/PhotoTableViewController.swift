@@ -79,10 +79,8 @@ class PhotoTableViewController: UITableViewController {
             cell.takenLabel.text = ""
         }
         
-        if let thumbnails = photo.thumbnails {
-            if thumbnails.count > 0 {
-                displayThumbnail(cell, id: photo.id, url: thumbnails[0].url)
-            }
+        if let thumbnail = photo.getThumbnailForSize(.THUMB) {
+            displayThumbnail(cell, id: photo.id, url: thumbnail.url)
         }
         
         return cell

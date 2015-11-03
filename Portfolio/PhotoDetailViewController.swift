@@ -35,18 +35,18 @@ class PhotoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let photo = photo, thumbnails = photo.thumbnails {
-            if thumbnails.count > 0 {
-                let request = NSURLRequest(URL: NSURL(string: thumbnails[0].url)!)
-                let size = CGSize(width: 600.0, height: 337.0)
-                let filter = AspectScaledToFillSizeFilter(size: size)
-                
-                // Load & store image.
-                imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
-                    if let image: UIImage = response.result.value {
-                        self.photoImageView.image = image
-                    }
+        
+        if let photo = photo, thumbnail = photo.getThumbnailForSize(.FULL) {
+            print("Thumbnail \(ThumbnailSizeEnum.FULL): \(thumbnail.url)")
+            
+            let request = NSURLRequest(URL: NSURL(string: thumbnail.url)!)
+            let size = CGSize(width: 600.0, height: 337.0)
+            let filter = AspectScaledToFillSizeFilter(size: size)
+            
+            // Load & store image.
+            imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
+                if let image: UIImage = response.result.value {
+                    self.photoImageView.image = image
                 }
             }
         }

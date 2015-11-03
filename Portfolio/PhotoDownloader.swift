@@ -144,9 +144,7 @@ class PhotoDownloader {
             photo.nsfw = element["nsfw"].boolValue
             // Thumbnails
             photo.thumbnails = [ThumbnailModel]()
-            for (_, elementThumbnail):(String, JSON) in json["images"] {
-                print("Thumbnail for #\(photo.id): \(elementThumbnail["size"].int32Value)")
-                
+            for (_, elementThumbnail):(String, JSON) in element["images"] {
                 let thumbnail = ThumbnailModel(
                     size: elementThumbnail["size"].int32Value,
                     url: elementThumbnail["https_url"].stringValue
