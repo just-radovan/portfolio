@@ -51,7 +51,7 @@ class PhotoDetailViewController: UIViewController {
             
             // Initialize map
             if let latitude = photo.latitude, longitude = photo.longitude {
-                zoomMap(latitude, longitude: longitude)
+                setUpMap(latitude, longitude: longitude)
                 addAnnotationToMap(photo.title, latitude: latitude, longitude: longitude)
             }
             
@@ -80,14 +80,16 @@ class PhotoDetailViewController: UIViewController {
     }
     
     // Center map to given location.
-    func zoomMap(latitude: Double, longitude: Double) {
+    func setUpMap(latitude: Double, longitude: Double) {
         let center: CLLocation = CLLocation(latitude: latitude, longitude: longitude)
-        let radius: CLLocationDistance = 500
+        let radius: CLLocationDistance = 100
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(
             center.coordinate,
-            radius * 2.0,
-            radius * 2.0
+            radius * 1.2,
+            radius * 1.2
         )
+        
+        mapView.mapType = MKMapType.Satellite
         mapView.setRegion(coordinateRegion, animated: true)
     }
     

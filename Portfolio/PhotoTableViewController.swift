@@ -7,16 +7,22 @@
 //
 
 import UIKit
+import MapKit
 import AlamofireImage
 
-class PhotoTableViewController: UITableViewController {
+class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate {
     
-    let dateFormatter = NSDateFormatter()
-    let thumbnailCacheID = "thumbnail"
+    // MARK: Properties - photos
     let dataController = DataController()
+    let thumbnailCacheID = "thumbnail"
+    var photos = [PhotoModel]()
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
-    var photos = [PhotoModel]()
+    // MARK: Properties - location
+    let locationManager: CLLocationManager!
+    var lastKnownLocation: CLLocation?
+    // MARK: Properties - stuff
+    let dateFormatter = NSDateFormatter()
     
     required init?(coder aDecoder: NSCoder) {
         imageCache = AutoPurgingImageCache(
@@ -29,6 +35,7 @@ class PhotoTableViewController: UITableViewController {
             maximumActiveDownloads: 4,
             imageCache: imageCache
         )
+        locationManager = CLLocationManager()
         
         dateFormatter.dateFormat = "dd.MM.yyyy"
         
@@ -37,8 +44,9 @@ class PhotoTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-  
+        
         loadPhotos()
+        initLocation()
         
         let downloader = PhotoDownloader()
         downloader.downloadAll() { downloadedPhotos in
@@ -54,7 +62,18 @@ class PhotoTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailViewController = segue.destinationViewController as! PhotoDetailViewController
+        if let selectedCell = sender as? PhotoTableViewCell {
+            let indexPath = tableView.indexPathForCell(selectedCell)!
+            let selectedPhoto = photos[indexPath.row]
+            
+            detailViewController.photo = selectedPhoto
+        }
+    }
 
+    // MARK: TableView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -71,7 +90,6 @@ class PhotoTableViewController: UITableViewController {
         
         // Display photo details.
         cell.titleLabel.text = photo.title
-        cell.descLabel.text = photo.desc
 
         if let taken = photo.taken {
             cell.takenLabel.text = dateFormatter.stringFromDate(taken)
@@ -79,6 +97,18 @@ class PhotoTableViewController: UITableViewController {
             cell.takenLabel.text = ""
         }
         
+        // Distance
+        if let lastLocation = lastKnownLocation, latitude = photo.latitude, longitude = photo.longitude {
+            let photoLocation = CLLocation(latitude: latitude, longitude: longitude)
+            cell.distanceLabel.text = String(
+                format: "%0.2f km",
+                lastLocation.distanceFromLocation(photoLocation) / 1000.0
+            )
+        } else {
+            cell.distanceLabel.text = nil
+        }
+        
+        // Thumbnail
         if let thumbnail = photo.getThumbnailForSize(.THUMB) {
             displayThumbnail(cell, id: photo.id, url: thumbnail.url)
         }
@@ -86,16 +116,12 @@ class PhotoTableViewController: UITableViewController {
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailViewController = segue.destinationViewController as! PhotoDetailViewController
-        if let selectedCell = sender as? PhotoTableViewCell {
-            let indexPath = tableView.indexPathForCell(selectedCell)!
-            let selectedPhoto = photos[indexPath.row]
-            
-            detailViewController.photo = selectedPhoto
-        }
+    // Receive scroll events.
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        // TODO: Allow cells to display thumbnail, cancel request not valid anymore.
     }
     
+    // MARK: Photos
     // Load and display photos.
     func loadPhotos() {
         if let photoModels = dataController.getPhotos() {
@@ -107,6 +133,7 @@ class PhotoTableViewController: UITableViewController {
     // Load and display photo thumbnail.
     // Use cache when possible.
     func displayThumbnail(cell: PhotoTableViewCell, id: Int64, url: String) {
+        // Set thumbnail params
         let request = NSURLRequest(URL: NSURL(string: url)!)
         let size = CGSize(width: 160.0, height: 90.0)
         let filter = AspectScaledToFillSizeFilter(size: size)
@@ -117,5 +144,22 @@ class PhotoTableViewController: UITableViewController {
                 cell.thumbnailView.image = image
             }
         }
+    }
+    
+    // MARK: Location
+    // Receive current location from CLLocationManager
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if locations.count > 0 {
+            lastKnownLocation = locations[locations.count - 1]
+            tableView.reloadData()
+        }
+    }
+    
+    // Get user's location.
+    func initLocation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
     }
 }
