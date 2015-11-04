@@ -133,15 +133,22 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
     // Load and display photo thumbnail.
     // Use cache when possible.
     func displayThumbnail(cell: PhotoTableViewCell, id: Int64, url: String) {
+        // Cancel outdated requests
+        if let requestReceipt = cell.requestReceipt {
+            imageDownloader.cancelRequestForRequestReceipt(requestReceipt)
+            cell.thumbnailView.image = nil
+        }
+        
         // Set thumbnail params
         let request = NSURLRequest(URL: NSURL(string: url)!)
         let size = CGSize(width: 160.0, height: 90.0)
         let filter = AspectScaledToFillSizeFilter(size: size)
         
         // Load & store image.
-        imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
+        cell.requestReceipt = imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
             if let image: UIImage = response.result.value {
                 cell.thumbnailView.image = image
+                cell.requestReceipt = nil
             }
         }
     }

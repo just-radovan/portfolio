@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class PhotoTableViewCell: UITableViewCell {
     
@@ -15,5 +16,5 @@ class PhotoTableViewCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var takenLabel: UILabel!
     
-    var completelyVisible = false
+    var requestReceipt: RequestReceipt?
 }
