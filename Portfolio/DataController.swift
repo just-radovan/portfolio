@@ -152,6 +152,7 @@ class DataController {
     // Get all photos (managed objects)
     func getPhotos() -> [PhotoModel]? {
         let request = NSFetchRequest(entityName: "Photos")
+        request.sortDescriptors = [NSSortDescriptor(key: "taken", ascending: false)]
         
         var results: [PhotoMO]?
         do {
