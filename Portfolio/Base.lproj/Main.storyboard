@@ -110,7 +110,42 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mZM-ui-fdQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="410" y="1079"/>
+            <point key="canvasLocation" x="-274" y="1079"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="WHq-km-fma">
+            <objects>
+                <viewController storyboardIdentifier="MapViewController" id="cPD-LN-8AS" customClass="MapViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i0x-ek-1lu"/>
+                        <viewControllerLayoutGuide type="bottom" id="hNv-cg-Z9J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bcz-oc-FbY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="oG4-C1-88o">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                            </mapView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oG4-C1-88o" firstAttribute="bottom" secondItem="hNv-cg-Z9J" secondAttribute="top" id="1eH-Ed-n7C"/>
+                            <constraint firstItem="oG4-C1-88o" firstAttribute="leading" secondItem="Bcz-oc-FbY" secondAttribute="leading" id="Caz-rB-VSU"/>
+                            <constraint firstAttribute="trailing" secondItem="oG4-C1-88o" secondAttribute="trailing" id="PB5-ru-f6g"/>
+                            <constraint firstItem="oG4-C1-88o" firstAttribute="top" secondItem="Bcz-oc-FbY" secondAttribute="top" id="Yzc-LY-HvH"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="9kj-rm-7ZH"/>
+                    <connections>
+                        <outlet property="mapView" destination="oG4-C1-88o" id="gHU-u8-1cS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v8H-c8-f0C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="410" y="1838"/>
         </scene>
         <!--Photo-->
         <scene sceneID="DBJ-1M-2XR">
@@ -204,7 +239,26 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zhE-KB-ASQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-274" y="1079"/>
+            <point key="canvasLocation" x="-966" y="1079"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tva-sq-oyE">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mMj-Qd-6DZ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Bg-VP-v9K">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cPD-LN-8AS" kind="relationship" relationship="rootViewController" id="hjU-e6-dMb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gcr-1v-g0h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-274" y="1838"/>
         </scene>
     </scenes>
 </document>

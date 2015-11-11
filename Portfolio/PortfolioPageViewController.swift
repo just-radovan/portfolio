@@ -65,7 +65,7 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
         case 0:
             return self.storyboard?.instantiateViewControllerWithIdentifier("PhotoTableViewController")
         case 1:
-            return self.storyboard?.instantiateViewControllerWithIdentifier("PhotoDetailViewController")
+            return self.storyboard?.instantiateViewControllerWithIdentifier("MapViewController")
         default:
             return nil
         }
@@ -101,7 +101,7 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     func getCurrentIndex(viewController: UIViewController) -> Int {
         if let _ = viewController as? PhotoTableViewController {
             return 0
-        } else if let _ = viewController as? PhotoDetailViewController {
+        } else if let _ = viewController as? MapViewController {
             return 1
         }
         
