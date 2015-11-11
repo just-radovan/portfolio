@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Photo Table View Controller-->
+        <!--Timeline-->
         <scene sceneID="NwT-hv-raJ">
             <objects>
                 <tableViewController storyboardIdentifier="PhotoTableViewController" id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,18 +82,7 @@
                             <outlet property="delegate" destination="j4h-Fd-3B2" id="O4l-Uq-YQB"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="M74-DI-Vnq">
-                        <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" segmentControlStyle="bar" selectedSegmentIndex="0" id="Zgg-Gc-55t">
-                            <rect key="frame" x="180" y="7" width="240" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
-                            <segments>
-                                <segment title="Timeline"/>
-                                <segment title="Map"/>
-                            </segments>
-                        </segmentedControl>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Timeline" id="M74-DI-Vnq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qAf-uM-loo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
