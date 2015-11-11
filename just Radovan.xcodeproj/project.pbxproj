@@ -20,6 +20,7 @@
 		0834EE331BDE138400A5D413 /* PortfolioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0834EE321BDE138400A5D413 /* PortfolioTests.swift */; };
 		08463C311BE3CC5C006A9DEF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08463C301BE3CC5C006A9DEF /* DataController.swift */; };
 		088EDCEB1BE7EACD006311D3 /* ThumbnailSizeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */; };
+		089C159F1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */; };
 		08AC6ED21BDE191300DBEBEC /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */; };
 		08AC6ED41BDE1C5500DBEBEC /* ThumbnailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC6ED31BDE1C5500DBEBEC /* ThumbnailModel.swift */; };
 		08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */; };
@@ -59,6 +60,7 @@
 		0834EE341BDE138400A5D413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08463C301BE3CC5C006A9DEF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailSizeEnum.swift; sourceTree = "<group>"; };
+		089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioPageViewController.swift; sourceTree = "<group>"; };
 		08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		08AC6ED31BDE1C5500DBEBEC /* ThumbnailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailModel.swift; sourceTree = "<group>"; };
 		08B724D11BDF5E1000654E04 /* PhotoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		08E3CC471BE23F5F00BF0B54 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */,
 				08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */,
 				08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */,
 				08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */,
@@ -371,6 +374,7 @@
 				08463C311BE3CC5C006A9DEF /* DataController.swift in Sources */,
 				0834006E1BE37C93007F096D /* PhotoMO.swift in Sources */,
 				08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */,
+				089C159F1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift in Sources */,
 				08B724D51BDF64E000654E04 /* Config.swift in Sources */,
 				0834006C1BE37C93007F096D /* ThumbnailMO.swift in Sources */,
 				0834EE201BDE138400A5D413 /* ViewController.swift in Sources */,

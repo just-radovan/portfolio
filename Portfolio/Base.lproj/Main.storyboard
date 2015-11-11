@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="W5c-xx-HHS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dgv-AR-hgw">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
@@ -10,7 +10,7 @@
         <!--Photo Table View Controller-->
         <scene sceneID="NwT-hv-raJ">
             <objects>
-                <tableViewController id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PhotoTableViewController" id="j4h-Fd-3B2" customClass="PhotoTableViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="91" sectionHeaderHeight="28" sectionFooterHeight="28" id="9AR-nt-vHQ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -99,10 +99,31 @@
             </objects>
             <point key="canvasLocation" x="410" y="315"/>
         </scene>
+        <!--Portfolio Page View Controller-->
+        <scene sceneID="v78-EY-Ckt">
+            <objects>
+                <pageViewController storyboardIdentifier="PortfolioPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Jmr-rs-Zgt" customClass="PortfolioPageViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="836-Bv-gnk">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XZF-Vm-iCd">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <segments>
+                                <segment title="Timeline"/>
+                                <segment title="Map"/>
+                            </segments>
+                        </segmentedControl>
+                    </navigationItem>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mZM-ui-fdQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="410" y="1079"/>
+        </scene>
         <!--Photo-->
         <scene sceneID="DBJ-1M-2XR">
             <objects>
-                <viewController id="HbA-Lu-Cez" customClass="PhotoDetailViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoDetailViewController" id="HbA-Lu-Cez" customClass="PhotoDetailViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4Qq-60-LVD"/>
                         <viewControllerLayoutGuide type="bottom" id="uu9-wE-di5"/>
@@ -173,6 +194,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GG8-FE-PeV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-274" y="315"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VVD-Hp-1Sz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dgv-AR-hgw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UE3-b2-0b1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Jmr-rs-Zgt" kind="relationship" relationship="rootViewController" id="QiO-za-Otk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zhE-KB-ASQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-274" y="1079"/>
         </scene>
     </scenes>
 </document>
