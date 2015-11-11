@@ -94,7 +94,7 @@
                 <pageViewController storyboardIdentifier="PortfolioPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Jmr-rs-Zgt" customClass="PortfolioPageViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="836-Bv-gnk">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XZF-Vm-iCd">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Owi-ot-LqM">
                             <rect key="frame" x="180" y="7" width="240" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
@@ -102,6 +102,9 @@
                                 <segment title="Timeline"/>
                                 <segment title="Map"/>
                             </segments>
+                            <connections>
+                                <action selector="onSegmentChanged:" destination="Jmr-rs-Zgt" eventType="valueChanged" id="kZp-uU-W72"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
                 </pageViewController>
