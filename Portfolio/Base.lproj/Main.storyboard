@@ -84,7 +84,7 @@
         <!--Portfolio Page View Controller-->
         <scene sceneID="v78-EY-Ckt">
             <objects>
-                <pageViewController storyboardIdentifier="PortfolioPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Jmr-rs-Zgt" customClass="PortfolioPageViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PortfolioPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="20" navigationOrientation="horizontal" spineLocation="none" doubleSided="YES" id="Jmr-rs-Zgt" customClass="PortfolioPageViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="836-Bv-gnk">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Owi-ot-LqM">
