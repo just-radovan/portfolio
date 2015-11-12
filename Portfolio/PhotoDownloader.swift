@@ -22,8 +22,24 @@ class PhotoDownloader {
     let dateFormatter = NSDateFormatter()
     let photoBaseUrl = "https://api.500px.com/v1/photos"
     
+    let defaultValues = NSUserDefaults.standardUserDefaults()
+    let downloadInterval: NSTimeInterval = 4 * 60 * 60
+    
     init() {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ" // 2015-08-11T18:20:33-04:00
+    }
+    
+    // Check last download and make sure not to download photos everytime.
+    func refresh(completion: (downloadedPhotos: Int) -> Void) {
+        if let lastDownload = defaultValues.valueForKey(UserDefaultsEnum.LAST_DOWNLOAD.rawValue) as? NSDate {
+            if (abs(lastDownload.timeIntervalSinceNow) < downloadInterval) {
+                print("Photos was downloaded before a while (\(abs(lastDownload.timeIntervalSinceNow))). Skipping for now.")
+                
+                return
+            }
+        }
+        
+        downloadAll(completion)
     }
     
     // Download all new photos and it's details.
@@ -41,7 +57,7 @@ class PhotoDownloader {
             for photo in photos! {
                 if self.dataController.photoExists(photo.id) {
                     if (checked >= photos!.count) {
-                        completion(downloadedPhotos: saved)
+                        self.onPhotoDownloadFinished(completion, downloadedPhotos: saved)
                     }
                     
                     checked += 1
@@ -52,12 +68,16 @@ class PhotoDownloader {
                     checked += 1
                     
                     if (checked >= photos!.count) {
-                        completion(downloadedPhotos: saved)
+                        self.onPhotoDownloadFinished(completion, downloadedPhotos: saved)
                     }
-                    
                 }
             }
         }
+    }
+    
+    // Notify about photo download finished.
+    func onPhotoDownloadFinished(completion: (downloadedPhotos: Int) -> Void, downloadedPhotos: Int) {
+        completion(downloadedPhotos: downloadedPhotos)
     }
     
     // Download photo list.
@@ -106,6 +126,9 @@ class PhotoDownloader {
                     } else {
                         // Everything downloaded, send the result.
                         completion(result: photos)
+                        
+                        // Save download's date.
+                        self.defaultValues.setObject(NSDate(), forKey: UserDefaultsEnum.LAST_DOWNLOAD.rawValue)
                     }
                 }
             } else {

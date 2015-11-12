@@ -19,6 +19,7 @@
 		0834EE281BDE138400A5D413 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0834EE261BDE138400A5D413 /* LaunchScreen.storyboard */; };
 		0834EE331BDE138400A5D413 /* PortfolioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0834EE321BDE138400A5D413 /* PortfolioTests.swift */; };
 		08463C311BE3CC5C006A9DEF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08463C301BE3CC5C006A9DEF /* DataController.swift */; };
+		08608FAB1BF4C98F0032CE0C /* UserDefaultsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08608FAA1BF4C98F0032CE0C /* UserDefaultsEnum.swift */; };
 		087AD0511BF3E06E00F67B29 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087AD0501BF3E06E00F67B29 /* MapViewController.swift */; };
 		088EDCEB1BE7EACD006311D3 /* ThumbnailSizeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */; };
 		089C159F1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */; };
@@ -60,6 +61,7 @@
 		0834EE321BDE138400A5D413 /* PortfolioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTests.swift; sourceTree = "<group>"; };
 		0834EE341BDE138400A5D413 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08463C301BE3CC5C006A9DEF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		08608FAA1BF4C98F0032CE0C /* UserDefaultsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsEnum.swift; sourceTree = "<group>"; };
 		087AD0501BF3E06E00F67B29 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailSizeEnum.swift; sourceTree = "<group>"; };
 		089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioPageViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				08AC6ED11BDE191300DBEBEC /* PhotoModel.swift */,
 				08AC6ED31BDE1C5500DBEBEC /* ThumbnailModel.swift */,
 				088EDCEA1BE7EACD006311D3 /* ThumbnailSizeEnum.swift */,
+				08608FAA1BF4C98F0032CE0C /* UserDefaultsEnum.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */,
 				0834006B1BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift in Sources */,
 				08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */,
+				08608FAB1BF4C98F0032CE0C /* UserDefaultsEnum.swift in Sources */,
 				088EDCEB1BE7EACD006311D3 /* ThumbnailSizeEnum.swift in Sources */,
 				08AC6ED21BDE191300DBEBEC /* PhotoModel.swift in Sources */,
 				083400661BE3785C007F096D /* PhotosCoreData.xcdatamodeld in Sources */,
