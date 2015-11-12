@@ -14,6 +14,8 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     var currentPage = 0;
     var nextPage = 0;
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +37,7 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     // Display page on given index.
     func switchToPage(index: Int) {
         var direction: UIPageViewControllerNavigationDirection
+        
         if (index > currentPage) {
             direction = .Forward
         } else {
@@ -47,6 +50,8 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
             animated: true,
             completion: nil
         )
+        
+        currentPage = index
     }
     
     /* Implement these to show "dots"...
@@ -94,6 +99,7 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if (completed) {
             currentPage = nextPage
+            segmentedControl.selectedSegmentIndex = currentPage
         }
     }
     
