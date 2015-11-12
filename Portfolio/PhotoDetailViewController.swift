@@ -14,6 +14,7 @@ class PhotoDetailViewController: UIViewController {
 
     let locationManager: CLLocationManager!
     let dataController = DataController()
+    let mapRadius: CLLocationDistance = 150 // Metres?
     var photo: PhotoModel?
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
@@ -51,7 +52,9 @@ class PhotoDetailViewController: UIViewController {
             
             // Initialize map
             if let latitude = photo.latitude, longitude = photo.longitude {
-                setUpMap(latitude, longitude: longitude)
+                let photoLocation = CLLocation(latitude: latitude, longitude: longitude)
+                
+                setUpMap(photoLocation)
                 addAnnotationToMap(photo.title, latitude: latitude, longitude: longitude)
             }
             
@@ -80,13 +83,11 @@ class PhotoDetailViewController: UIViewController {
     }
     
     // Center map to given location.
-    func setUpMap(latitude: Double, longitude: Double) {
-        let center: CLLocation = CLLocation(latitude: latitude, longitude: longitude)
-        let radius: CLLocationDistance = 100
+    func setUpMap(center: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(
             center.coordinate,
-            radius * 1.2,
-            radius * 1.2
+            mapRadius,
+            mapRadius
         )
         
         mapView.mapType = MKMapType.Satellite
