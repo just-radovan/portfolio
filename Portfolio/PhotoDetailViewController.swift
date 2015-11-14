@@ -94,7 +94,7 @@ class PhotoDetailViewController: UIViewController {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    // Add annotation to map
+    // Add annotation to the map
     func addAnnotationToMap(title: String, latitude: Double, longitude: Double) {
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let annotation = MKPointAnnotation()

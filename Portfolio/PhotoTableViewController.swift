@@ -52,8 +52,6 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
         
         let downloader = PhotoDownloader()
         downloader.refresh() { downloadedPhotos in
-            print("Photos saved: \(downloadedPhotos)")
-            
             if (downloadedPhotos > 0) {
                 self.loadPhotos()
             }

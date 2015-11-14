@@ -33,9 +33,7 @@ class PhotoDownloader {
     func refresh(completion: (downloadedPhotos: Int) -> Void) {
         if let lastDownload = defaultValues.valueForKey(UserDefaultsEnum.LAST_DOWNLOAD.rawValue) as? NSDate {
             if (abs(lastDownload.timeIntervalSinceNow) < downloadInterval) {
-                print("Photos was downloaded before a while (\(abs(lastDownload.timeIntervalSinceNow))). Skipping for now.")
-                
-                return
+                return // Photos were downloaded before a while... skipping.
             }
         }
         

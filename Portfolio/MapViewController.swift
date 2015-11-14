@@ -11,9 +11,14 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
+    // MARK: Location
     let locationManager: CLLocationManager!
     let mapRadius: CLLocationDistance = 2000 // Metres?
     var mapCentered = false
+    
+    // MARK: Properties - photos
+    let dataController = DataController()
+    var photos = [PhotoModel]()
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -35,8 +40,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         } else {
             mapView.showsUserLocation = true
         }
+        
+        // Photos
+        loadPhotos()
+        
+        let downloader = PhotoDownloader()
+        downloader.refresh() { downloadedPhotos in
+            if (downloadedPhotos > 0) {
+                self.loadPhotos()
+            }
+        }
     }
     
+    // MARK: Map
     // Center map to user's location. Only once.
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         if (mapCentered || userLocation.location == nil) {
@@ -57,5 +73,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.mapType = MKMapType.Standard
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    // MARK: Photos
+    // Load and display photos.
+    func loadPhotos() {
+        if let photoModels = dataController.getPhotos() {
+            photos = photoModels
+            addAnnotationsToMap()
+        }
+    }
+    
+    // Add annotations to the map.
+    func addAnnotationsToMap() {
+        for photo in photos {
+            if let latitude = photo.latitude, longitude = photo.longitude {
+                let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = location
+                annotation.title = photo.title
+                
+                mapView.addAnnotation(annotation)
+            }
+        }
     }
 }
