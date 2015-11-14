@@ -18,9 +18,11 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
     var photos = [PhotoModel]()
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
+    
     // MARK: Properties - location
     let locationManager: CLLocationManager!
     var lastKnownLocation: CLLocation?
+    
     // MARK: Properties - stuff
     let dateFormatter = NSDateFormatter()
     
