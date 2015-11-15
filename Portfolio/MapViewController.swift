@@ -66,6 +66,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "ShowPhotoDetailFromMap") {
+            let pointAnnotation = sender as? PointAnnotation
+            let detailViewController = segue.destinationViewController as? PhotoDetailViewController
+            
+            if (pointAnnotation != nil && pointAnnotation?.photo != nil && detailViewController != nil) {
+                detailViewController!.photo = pointAnnotation!.photo!
+            }
+        }
+    }
+    
     // MARK: Map
     // Center map to user's location. Only once.
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
@@ -86,26 +98,35 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID)
         var button: UIButton?
         
-        if (pin == nil) {
+        if (pin != nil) {
+            button = pin!.leftCalloutAccessoryView as? UIButton
+            
+            pin!.annotation = annotation
+        } else {
             button = UIButton(type: UIButtonType.Custom)
             button!.frame.size.width = 46
             button!.frame.size.height = 46
             
             pin = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
             pin!.image = UIImage(named: "Pin Photo")
-            pin!.rightCalloutAccessoryView = button
+            pin!.leftCalloutAccessoryView = button
             pin!.canShowCallout = true
-        } else {
-            button = pin!.rightCalloutAccessoryView as? UIButton
-            
-            pin!.annotation = annotation
         }
         
         if let button = button, pointAnnotation = annotation as? PointAnnotation, photo = pointAnnotation.photo {
             displayThumbnail(button, photo: photo)
         }
-    
+        
         return pin
+    }
+    
+    // Display photo detail.
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if (control == view.leftCalloutAccessoryView) { // Left button
+            if let annotation = view.annotation as? PointAnnotation {
+                return performSegueWithIdentifier("ShowPhotoDetailFromMap", sender: annotation)
+            }
+        }
     }
     
     // Load and display photo thumbnail.
