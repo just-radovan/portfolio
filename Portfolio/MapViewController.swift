@@ -79,6 +79,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // Handle adding annotation view to the map.
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if (!(annotation is PointAnnotation)) {
+            return nil
+        }
+        
         var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID) as? PinAnnotationView
         if (pin == nil) {
             pin = PinAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
@@ -87,14 +91,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pin!.annotation = annotation
         }
         
-        if let pin = pin {
-            if (annotation is PointAnnotation) {
-                pin.image = UIImage(named: "Pin Photo")
-            } else {
-                pin.image = UIImage(named: "Pin My")
-            }
+        let point = annotation as! PointAnnotation
+        if let photo = point.photo, thumbnail = photo.getThumbnailForSize(.PIN) {
+            displayThumbnail(pin!, id: photo.id, url: thumbnail.url)
         }
-
+        
         return pin
     }
     
