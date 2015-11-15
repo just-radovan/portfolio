@@ -187,7 +187,9 @@
                             <constraint firstItem="XwJ-E6-YE3" firstAttribute="leading" secondItem="ayM-c5-nw7" secondAttribute="leading" id="z41-iG-2b6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Photo" id="ZTw-1n-zxJ"/>
+                    <navigationItem key="navigationItem" title="Photo" id="ZTw-1n-zxJ">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="h1T-gX-FXh"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="XwJ-E6-YE3" id="XIc-Y0-LdT"/>
                         <outlet property="photoImageView" destination="GRL-ld-apb" id="nBj-Ld-LBY"/>
