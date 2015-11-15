@@ -36,6 +36,7 @@ class PhotoMO: NSManagedObject {
         self.lens = photoModel.lens
         self.latitude = photoModel.latitude
         self.longitude = photoModel.longitude
+        self.downloaded = photoModel.downloaded
     }
     
     // Create data model from managed object.

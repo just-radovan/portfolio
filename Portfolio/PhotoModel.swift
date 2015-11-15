@@ -35,6 +35,8 @@ struct PhotoModel {
     // Geolocation
     var latitude: Double?
     var longitude: Double?
+    // Status
+    var downloaded: NSDate?
     
     init(id: Int64, title: String, desc: String) {
         self.id = id

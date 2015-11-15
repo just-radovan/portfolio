@@ -32,4 +32,5 @@ extension PhotoMO {
     @NSManaged var lens: String?
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
+    @NSManaged var downloaded: NSDate?
 }

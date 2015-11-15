@@ -184,6 +184,8 @@ class PhotoDownloader {
             // Geolocation
             photo.latitude = element["latitude"].doubleValue
             photo.longitude = element["longitude"].doubleValue
+            // Status
+            photo.downloaded = NSDate()
             
             photos.append(photo)
         }
