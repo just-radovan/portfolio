@@ -29,7 +29,6 @@
 		08B724D51BDF64E000654E04 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D41BDF64E000654E04 /* Config.swift */; };
 		08B724D91BDF6ADF00654E04 /* Config.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08B724D81BDF6ADF00654E04 /* Config.swift.txt */; };
 		08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */; };
-		08D6863B1BF75FF8000A97F4 /* PinAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863A1BF75FF8000A97F4 /* PinAnnotationView.swift */; };
 		08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */; };
 		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
 		08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */; };
@@ -73,7 +72,6 @@
 		08B724D41BDF64E000654E04 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		08B724D81BDF6ADF00654E04 /* Config.swift.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Config.swift.txt; sourceTree = "<group>"; };
 		08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
-		08D6863A1BF75FF8000A97F4 /* PinAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinAnnotationView.swift; sourceTree = "<group>"; };
 		08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 		08D686391BF75F56000A97F4 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				08D6863A1BF75FF8000A97F4 /* PinAnnotationView.swift */,
 				08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */,
 			);
 			name = Map;
@@ -402,7 +399,6 @@
 				0834006C1BE37C93007F096D /* ThumbnailMO.swift in Sources */,
 				0834EE201BDE138400A5D413 /* ViewController.swift in Sources */,
 				0834EE1E1BDE138400A5D413 /* AppDelegate.swift in Sources */,
-				08D6863B1BF75FF8000A97F4 /* PinAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

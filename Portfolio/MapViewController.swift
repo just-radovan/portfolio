@@ -21,22 +21,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     let dataController = DataController()
     var photos = [PhotoModel]()
     let annotationViewReuseID = "mapPin"
-    var imageCache: AutoPurgingImageCache
-    var imageDownloader: ImageDownloader
     
     @IBOutlet weak var mapView: MKMapView!
     
     required init?(coder aDecoder: NSCoder) {
-        imageCache = AutoPurgingImageCache(
-            memoryCapacity: 100 * 1024 * 1024,
-            preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
-        )
-        imageDownloader = ImageDownloader(
-            configuration: ImageDownloader.defaultURLSessionConfiguration(),
-            downloadPrioritization: .LIFO,
-            maximumActiveDownloads: 4,
-            imageCache: imageCache
-        )
         locationManager = CLLocationManager()
         
         super.init(coder: aDecoder)
@@ -79,46 +67,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // Handle adding annotation view to the map.
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if (!(annotation is PointAnnotation)) {
+        if (annotation is MKUserLocation) {
             return nil
         }
         
-        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID) as? PinAnnotationView
+        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID)
         if (pin == nil) {
-            pin = PinAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
+            pin = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
+            pin!.image = UIImage(named: "Pin Photo")
             pin!.canShowCallout = true
         } else {
             pin!.annotation = annotation
         }
         
-        let point = annotation as! PointAnnotation
-        if let photo = point.photo, thumbnail = photo.getThumbnailForSize(.PIN) {
-            displayThumbnail(pin!, id: photo.id, url: thumbnail.url)
-        }
-        
         return pin
-    }
-    
-    // Display thumbnail on pin annotation view.
-    func displayThumbnail(pin: PinAnnotationView, id: Int64, url: String) {
-        // Cancel outdated requests
-        if let requestReceipt = pin.requestReceipt {
-            imageDownloader.cancelRequestForRequestReceipt(requestReceipt)
-            pin.image = nil
-        }
-        
-        // Set thumbnail params
-        let request = NSURLRequest(URL: NSURL(string: url)!)
-        let size = CGSize(width: 32.0, height: 32.0)
-        let filter = AspectScaledToFillSizeFilter(size: size)
-        
-        // Load & store image.
-        pin.requestReceipt = imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
-            if let image: UIImage = response.result.value {
-                pin.image = image
-                pin.requestReceipt = nil
-            }
-        }
     }
     
     // Center and zoom the map.
