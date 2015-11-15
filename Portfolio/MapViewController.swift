@@ -20,11 +20,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Properties - photos
     let dataController = DataController()
     var photos = [PhotoModel]()
+    var imageCache: AutoPurgingImageCache
+    var imageDownloader: ImageDownloader
     let annotationViewReuseID = "mapPin"
     
     @IBOutlet weak var mapView: MKMapView!
     
     required init?(coder aDecoder: NSCoder) {
+        imageCache = AutoPurgingImageCache(
+            memoryCapacity: 100 * 1024 * 1024,
+            preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
+        )
+        imageDownloader = ImageDownloader(
+            configuration: ImageDownloader.defaultURLSessionConfiguration(),
+            downloadPrioritization: .LIFO,
+            maximumActiveDownloads: 4,
+            imageCache: imageCache
+        )
         locationManager = CLLocationManager()
         
         super.init(coder: aDecoder)
@@ -72,15 +84,49 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID)
+        var button: UIButton?
+        
         if (pin == nil) {
+            button = UIButton(type: UIButtonType.Custom)
+            button!.frame.size.width = 46
+            button!.frame.size.height = 46
+            
             pin = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
             pin!.image = UIImage(named: "Pin Photo")
+            pin!.rightCalloutAccessoryView = button
             pin!.canShowCallout = true
         } else {
+            button = pin!.rightCalloutAccessoryView as? UIButton
+            
             pin!.annotation = annotation
         }
         
+        if let button = button, pointAnnotation = annotation as? PointAnnotation, photo = pointAnnotation.photo {
+            displayThumbnail(button, photo: photo)
+        }
+    
         return pin
+    }
+    
+    // Load and display photo thumbnail.
+    // Use cache when possible.
+    func displayThumbnail(button: UIButton, photo: PhotoModel) {
+        let url = photo.getThumbnailForSize(.PIN)?.url
+        if (url == nil) {
+            return
+        }
+        
+        // Set thumbnail params
+        let request = NSURLRequest(URL: NSURL(string: url!)!)
+        let size = CGSize(width: 46.0, height: 46.0)
+        let filter = AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 6.0)
+        
+        // Load & store image.
+        imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
+            if let image: UIImage = response.result.value {
+                button.setImage(image, forState: .Normal)
+            }
+        }
     }
     
     // Center and zoom the map.
