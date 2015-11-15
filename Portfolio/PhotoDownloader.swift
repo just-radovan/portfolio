@@ -90,8 +90,9 @@ class PhotoDownloader {
             "feature": "user",
             "username": "just_radovan",
             "sort": "taken_at",
-            "image_size[0]": String(ThumbnailSizeEnum.THUMB.rawValue),
-            "image_size[1]": String(ThumbnailSizeEnum.FULL.rawValue),
+            "image_size[0]": String(ThumbnailSizeEnum.PIN.rawValue),
+            "image_size[1]": String(ThumbnailSizeEnum.THUMB.rawValue),
+            "image_size[2]": String(ThumbnailSizeEnum.FULL.rawValue),
             "page": String(page),
             "consumer_key": Config.consumerKey
         ]

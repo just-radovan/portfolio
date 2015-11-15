@@ -10,6 +10,7 @@ import Foundation
 
 enum ThumbnailSizeEnum: Int32 {
     
+    case PIN = 1 // Small pin
     case THUMB = 20 // Thumbnail
     case FULL = 1080 // Photo detail
 }

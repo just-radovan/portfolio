@@ -8,10 +8,11 @@
 
 import UIKit
 import MapKit
+import AlamofireImage
 
 class MapViewController: UIViewController, MKMapViewDelegate {
-
-    // MARK: Location
+    
+    // MARK: Properties - location
     let locationManager: CLLocationManager!
     let mapRadius: CLLocationDistance = 2000 // Metres?
     var mapCentered = false
@@ -19,10 +20,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Properties - photos
     let dataController = DataController()
     var photos = [PhotoModel]()
+    let annotationViewReuseID = "mapPin"
+    var imageCache: AutoPurgingImageCache
+    var imageDownloader: ImageDownloader
     
     @IBOutlet weak var mapView: MKMapView!
     
     required init?(coder aDecoder: NSCoder) {
+        imageCache = AutoPurgingImageCache(
+            memoryCapacity: 100 * 1024 * 1024,
+            preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
+        )
+        imageDownloader = ImageDownloader(
+            configuration: ImageDownloader.defaultURLSessionConfiguration(),
+            downloadPrioritization: .LIFO,
+            maximumActiveDownloads: 4,
+            imageCache: imageCache
+        )
         locationManager = CLLocationManager()
         
         super.init(coder: aDecoder)
@@ -63,6 +77,49 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapCentered = true
     }
     
+    // Handle adding annotation view to the map.
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID) as? PinAnnotationView
+        if (pin == nil) {
+            pin = PinAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
+            pin!.canShowCallout = true
+        } else {
+            pin!.annotation = annotation
+        }
+        
+        if let pin = pin {
+            if (annotation is PointAnnotation) {
+                pin.image = UIImage(named: "Pin Photo")
+            } else {
+                pin.image = UIImage(named: "Pin My")
+            }
+        }
+
+        return pin
+    }
+    
+    // Display thumbnail on pin annotation view.
+    func displayThumbnail(pin: PinAnnotationView, id: Int64, url: String) {
+        // Cancel outdated requests
+        if let requestReceipt = pin.requestReceipt {
+            imageDownloader.cancelRequestForRequestReceipt(requestReceipt)
+            pin.image = nil
+        }
+        
+        // Set thumbnail params
+        let request = NSURLRequest(URL: NSURL(string: url)!)
+        let size = CGSize(width: 32.0, height: 32.0)
+        let filter = AspectScaledToFillSizeFilter(size: size)
+        
+        // Load & store image.
+        pin.requestReceipt = imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
+            if let image: UIImage = response.result.value {
+                pin.image = image
+                pin.requestReceipt = nil
+            }
+        }
+    }
+    
     // Center and zoom the map.
     func setUpMap(center: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(
@@ -89,7 +146,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         for photo in photos {
             if let latitude = photo.latitude, longitude = photo.longitude {
                 let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                let annotation = MKPointAnnotation()
+                let annotation = PointAnnotation()
+                annotation.photo = photo
                 annotation.coordinate = location
                 annotation.title = photo.title
                 

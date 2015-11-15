@@ -29,6 +29,8 @@
 		08B724D51BDF64E000654E04 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B724D41BDF64E000654E04 /* Config.swift */; };
 		08B724D91BDF6ADF00654E04 /* Config.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 08B724D81BDF6ADF00654E04 /* Config.swift.txt */; };
 		08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */; };
+		08D6863B1BF75FF8000A97F4 /* PinAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863A1BF75FF8000A97F4 /* PinAnnotationView.swift */; };
+		08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */; };
 		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
 		08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */; };
 		75F315D118E2BD65C55AE2E3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CAAAE33C57B38F9193831BA /* Pods.framework */; };
@@ -71,6 +73,8 @@
 		08B724D41BDF64E000654E04 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		08B724D81BDF6ADF00654E04 /* Config.swift.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Config.swift.txt; sourceTree = "<group>"; };
 		08B7C7471BE65D7E003E0D58 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
+		08D6863A1BF75FF8000A97F4 /* PinAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinAnnotationView.swift; sourceTree = "<group>"; };
+		08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
 		0CAAAE33C57B38F9193831BA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				08E3CC471BE23F5F00BF0B54 /* UI */,
+				08D686391BF75F56000A97F4 /* Map */,
 				08B724D31BDF64CD00654E04 /* Configuration */,
 				08AC6ED01BDE18FA00DBEBEC /* Model */,
 				083400631BE3783D007F096D /* Storage */,
@@ -182,6 +187,15 @@
 				08B724D81BDF6ADF00654E04 /* Config.swift.txt */,
 			);
 			name = Configuration;
+			sourceTree = "<group>";
+		};
+		08D686391BF75F56000A97F4 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				08D6863A1BF75FF8000A97F4 /* PinAnnotationView.swift */,
+				08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */,
+			);
+			name = Map;
 			sourceTree = "<group>";
 		};
 		08E3CC471BE23F5F00BF0B54 /* UI */ = {
@@ -369,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */,
+				08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */,
 				08AC6ED41BDE1C5500DBEBEC /* ThumbnailModel.swift in Sources */,
 				0834006D1BE37C93007F096D /* PhotoMO+CoreDataProperties.swift in Sources */,
 				08B7C7481BE65D7E003E0D58 /* PhotoDetailViewController.swift in Sources */,
@@ -387,6 +402,7 @@
 				0834006C1BE37C93007F096D /* ThumbnailMO.swift in Sources */,
 				0834EE201BDE138400A5D413 /* ViewController.swift in Sources */,
 				0834EE1E1BDE138400A5D413 /* AppDelegate.swift in Sources */,
+				08D6863B1BF75FF8000A97F4 /* PinAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
