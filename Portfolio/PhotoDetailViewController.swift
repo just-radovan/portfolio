@@ -25,6 +25,8 @@ class PhotoDetailViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var cameraLabel: UILabel!
+    @IBOutlet weak var exifLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,9 +53,15 @@ class PhotoDetailViewController: UIViewController, MKMapViewDelegate {
         if let photo = photo {
             self.title = photo.title
             
-            // Title
+            // Photo details
             if let ratingHigh = photo.ratingHigh {
                 ratingLabel.text = String(format: "%.1f", ratingHigh)
+            }
+            if let camera = photo.camera, lens = photo.lens {
+                cameraLabel.text = camera + ", " + lens
+            }
+            if let aperture = photo.aperture, shutter = photo.shutterSpeed, iso = photo.iso {
+                exifLabel.text = "f/" + aperture + ", " + shutter + " s , ISO " + iso
             }
             
             // Initialize map
