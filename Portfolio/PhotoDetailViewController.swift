@@ -22,6 +22,8 @@ class PhotoDetailViewController: UIViewController, MKMapViewDelegate {
     var photo: PhotoModel?
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
+    var width: CGFloat! = 600.0 // Default width of UIImageView; 16:9.
+    var height: CGFloat! = 337.0 // Default height of UIImageView; 16:9.
     
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
@@ -51,6 +53,18 @@ class PhotoDetailViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         if let photo = photo {
+            // Calculate photo size and set the UIImageView size
+            if let photoWidth = photo.width, photoHeight = photo.height {
+                let ratio = CGFloat(photoWidth) / CGFloat(photoHeight)
+                
+                height = width / ratio
+            }
+            photoImageView.frame = CGRect(
+                x: 0.0, y: 0.0,
+                width: width, height: height
+            )
+            
+            // Page title
             self.title = photo.title
             
             // Photo details
@@ -75,13 +89,15 @@ class PhotoDetailViewController: UIViewController, MKMapViewDelegate {
             // Photo
             if let thumbnail = photo.getThumbnailForSize(.FULL) {
                 let request = NSURLRequest(URL: NSURL(string: thumbnail.url)!)
-                let size = CGSize(width: 600.0, height: 337.0)
+                let size = CGSize(width: width, height: height)
                 let filter = AspectScaledToFillSizeFilter(size: size)
                 
-                // Load & store image.
+                // Load & store image
                 imageDownloader.downloadImage(URLRequest: request, filter: filter) { response in
                     if let image: UIImage = response.result.value {
                         self.photoImageView.image = image
+                        self.photoImageView.clipsToBounds = true
+                        self.photoImageView.sizeToFit()
                     }
                 }
             }
