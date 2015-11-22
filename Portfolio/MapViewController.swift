@@ -70,7 +70,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "ShowPhotoDetailFromMap") {
             let pointAnnotation = sender as? PointAnnotation
-            let detailViewController = segue.destinationViewController as? PhotoDetailViewController
+            let detailViewController = segue.destinationViewController as? DetailViewController
             
             if (pointAnnotation != nil && pointAnnotation?.photo != nil && detailViewController != nil) {
                 detailViewController!.photo = pointAnnotation!.photo!

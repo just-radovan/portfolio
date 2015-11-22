@@ -57,14 +57,9 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
             }
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailViewController = segue.destinationViewController as! PhotoDetailViewController
+        let detailViewController = segue.destinationViewController as! DetailViewController
         if let selectedCell = sender as? PhotoTableViewCell {
             let indexPath = tableView.indexPathForCell(selectedCell)!
             let selectedPhoto = photos[indexPath.row]
@@ -114,11 +109,6 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
         }
         
         return cell
-    }
-    
-    // Receive scroll events.
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
-        // TODO: Allow cells to display thumbnail, cancel request not valid anymore.
     }
     
     // MARK: Photos
