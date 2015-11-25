@@ -159,7 +159,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         )
         
         mapView.mapType = MKMapType.Standard
-        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.setRegion(coordinateRegion, animated: false)
     }
     
     // MARK: Photos

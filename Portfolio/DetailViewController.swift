@@ -37,7 +37,9 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     let dataController = DataController()
     let mapRadius: CLLocationDistance = 150 // Metres?
     let annotationViewReuseID = "mapPin"
-    
+    var lastKnownUserLocation: MKUserLocation?
+    var userChangedMap: Bool = false
+
     required init?(coder aDecoder: NSCoder) {
         imageCache = AutoPurgingImageCache(
             memoryCapacity: 100 * 1024 * 1024,
@@ -73,21 +75,20 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        
         switch indexPath.row {
         case 0:
             self.tableView.rowHeight = 337 // Default height, will be changed in prepareCellPhoto()
-            cell = prepareCellPhoto(indexPath)
+            
+            return prepareCellPhoto(indexPath)
         case 1:
-            self.tableView.rowHeight = 184
-            cell = prepareCellExif(indexPath)
+            self.tableView.rowHeight = 156
+            
+            return prepareCellExif(indexPath)
         default:
             self.tableView.rowHeight = 300
-            cell = prepareCellMap(indexPath)
+            
+            return prepareCellMap(indexPath)
         }
-        
-        return cell;
     }
     
     // MARK: MapView
@@ -121,6 +122,20 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         }
         
         return pin
+    }
+    
+    // Handle new user's location.
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+        lastKnownUserLocation = userLocation
+        
+        adaptMapViewport(mapView: mapView)
+    }
+    
+    // Handle map movement.
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        userChangedMap = mapViewRegionDidChangeFromUserInteraction(mapView: mapView)
+        
+        
     }
     
     // MARK: Cell preparation
@@ -218,13 +233,18 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! DetailMapTableViewCell
     
         cell.mapView.delegate = self
+        userChangedMap = false
         
         if let photo = photo {
             // Initialize map
             if let latitude = photo.latitude, longitude = photo.longitude {
                 let photoLocation = CLLocation(latitude: latitude, longitude: longitude)
                 
-                setUpMap(cell, center: photoLocation)
+                if (lastKnownUserLocation != nil) {
+                    adaptMapViewport(mapView: cell.mapView)
+                } else {
+                    setUpMap(cell, center: photoLocation)
+                }
                 addAnnotationToMap(cell, title: photo.title, latitude: latitude, longitude: longitude)
             }
         }
@@ -242,8 +262,23 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     
     // MARK: Map functions
     
+    // Check if user moved the map.
+    private func mapViewRegionDidChangeFromUserInteraction(mapView mapView: MKMapView) -> Bool {
+        let view = mapView.subviews[0]
+        
+        if let gestureRecognizers = view.gestureRecognizers {
+            for recognizer in gestureRecognizers {
+                if (recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended) {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
     // Center map to given location.
-    func setUpMap(cell: DetailMapTableViewCell, center: CLLocation) {
+    private func setUpMap(cell: DetailMapTableViewCell, center: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(
             center.coordinate,
             mapRadius,
@@ -251,11 +286,55 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         )
         
         cell.mapView.mapType = MKMapType.Satellite
-        cell.mapView.setRegion(coordinateRegion, animated: true)
+        cell.mapView.setRegion(coordinateRegion, animated: false)
+    }
+    
+    
+    // Adapt viewport to make visible photo location and user location.
+    private func adaptMapViewport(mapView mapView: MKMapView) {
+        if (userChangedMap) {
+            return // User changed viewport.
+        }
+        if (lastKnownUserLocation == nil) {
+            return // We don't have user's location.
+        }
+        if (photo == nil || photo?.latitude == nil || photo?.longitude == nil) {
+            return // We don't have location of the photo.
+        }
+        
+        // Center.
+        let centerLatitude = (lastKnownUserLocation!.coordinate.latitude + photo!.latitude!) / 2.0
+        let centerLongitude = (lastKnownUserLocation!.coordinate.longitude + photo!.longitude!) / 2.0
+        let center = CLLocationCoordinate2DMake(centerLatitude, centerLongitude)
+        
+        // Span.
+        var latitudeDelta: Double
+        if (lastKnownUserLocation!.coordinate.latitude < photo!.latitude!) {
+            latitudeDelta = photo!.latitude! - lastKnownUserLocation!.coordinate.latitude
+        } else {
+            latitudeDelta = lastKnownUserLocation!.coordinate.latitude - photo!.latitude!
+        }
+        
+        var longitudeDelta: Double
+        if (lastKnownUserLocation!.coordinate.longitude < photo!.longitude!) {
+            longitudeDelta = photo!.longitude! - lastKnownUserLocation!.coordinate.longitude
+        } else {
+            longitudeDelta = lastKnownUserLocation!.coordinate.longitude - photo!.longitude!
+        }
+        
+        let span = MKCoordinateSpanMake(
+            latitudeDelta * 1.2,
+            longitudeDelta * 1.2
+        )
+        
+        // Zomm map to computed viewport.
+        let viewport = MKCoordinateRegionMake(center, span);
+        
+        mapView.setRegion(viewport, animated: true)
     }
     
     // Add annotation to the map
-    func addAnnotationToMap(cell: DetailMapTableViewCell, title: String, latitude: Double, longitude: Double) {
+    private func addAnnotationToMap(cell: DetailMapTableViewCell, title: String, latitude: Double, longitude: Double) {
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
@@ -266,7 +345,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     
     // Load and display photo thumbnail.
     // Use cache when possible.
-    func displayThumbnail(button: UIButton) {
+    private func displayThumbnail(button: UIButton) {
         if (photo == nil) {
             return
         }
