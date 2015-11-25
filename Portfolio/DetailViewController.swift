@@ -29,6 +29,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     // MARK: Properties - image loader
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
+    var photoView: UIImageView?
     var width: CGFloat! = 600.0 // Default width of UIImageView; 16:9.
     var height: CGFloat! = 337.0 // Default height of UIImageView; 16:9.
     
@@ -145,6 +146,10 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         let cellId = cells[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! DetailPhotoTableViewCell
         
+        if (photoView != nil) {
+            photoView!.removeFromSuperview()
+        }
+        
         if let photo = photo {
             // Calculate photo view size.
             if let photoWidth = photo.width, photoHeight = photo.height {
@@ -179,6 +184,8 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
                         imageView.sizeToFit()
                         
                         cell.insertSubview(imageView, atIndex: 0)
+                        
+                        self.photoView = imageView
                     }
                 }
             }
