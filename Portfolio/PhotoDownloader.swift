@@ -18,6 +18,8 @@ extension NSURLSessionTask {
 
 class PhotoDownloader {
     
+    // MARK: Properties
+    
     let dataController = DataController()
     let dateFormatter = NSDateFormatter()
     let photoBaseUrl = "https://api.500px.com/v1/photos"
@@ -25,9 +27,13 @@ class PhotoDownloader {
     let defaultValues = NSUserDefaults.standardUserDefaults()
     let downloadInterval: NSTimeInterval = 4 * 60 * 60
     
+    // MARK: Initialization
+    
     init() {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ" // 2015-08-11T18:20:33-04:00
     }
+    
+    // MARK: Photos (list)
     
     // Check last download and make sure not to download photos everytime.
     func refresh(completion: (downloadedPhotos: Int) -> Void) {
@@ -71,11 +77,6 @@ class PhotoDownloader {
                 }
             }
         }
-    }
-    
-    // Notify about photo download finished.
-    func onPhotoDownloadFinished(completion: (downloadedPhotos: Int) -> Void, downloadedPhotos: Int) {
-        completion(downloadedPhotos: downloadedPhotos)
     }
     
     // Download photo list.
@@ -136,15 +137,6 @@ class PhotoDownloader {
         }
     }
     
-    // Create JSON from given String.
-    func getJSONFromString(data: String) -> JSON? {
-        if let dataFromString = data.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-            return JSON(data: dataFromString)
-        }
-        
-        return nil
-    }
-    
     // Parse downloaded JSON into array of PhotoModels.
     func parseListJSON(json: JSON) -> [PhotoModel] {
         var photos = [PhotoModel]()
@@ -191,5 +183,68 @@ class PhotoDownloader {
         }
         
         return photos
+    }
+    
+    // MARK: Photo (single)
+    
+    // Download photo detail
+    func refreshDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
+        let params = [
+            "consumer_key": Config.consumerKey
+        ]
+        
+        let url = photoBaseUrl + "/\(photo.id)"
+        
+        Alamofire.request(.GET, url, parameters: params).responseString { response in
+            if let data = response.result.value {
+                if let json = self.getJSONFromString(data) {
+                    let photo = self.parseShortDetailJSON(photo: photo, json: json)
+                    
+                    completion(result: photo)
+                }
+            } else {
+                print("No response from 500px server.")
+            }
+        }
+    }
+    
+    // Parse downloaded JSON into PhotoModel
+    func parseShortDetailJSON(var photo photo: PhotoModel, json: JSON) -> PhotoModel {
+        let element = json["photo"]
+        
+        // Basic
+        photo.title = element["name"].stringValue
+        photo.desc = element["description"].stringValue
+        // Photo
+        photo.width = element["width"].int32Value
+        photo.height = element["height"].int32Value
+        photo.photoUrl = element["image_url"].stringValue
+        // 500px
+        photo.rating = element["rating"].floatValue
+        photo.ratingHigh = element["highest_rating"].floatValue
+        // Geolocation
+        photo.latitude = element["latitude"].doubleValue
+        photo.longitude = element["longitude"].doubleValue
+        // Status
+        photo.downloaded = NSDate()
+
+        return photo
+    }
+    
+    // MARK: Common
+    
+    // Notify about photo download finished.
+    func onPhotoDownloadFinished(completion: (downloadedPhotos: Int) -> Void, downloadedPhotos: Int) {
+        completion(downloadedPhotos: downloadedPhotos)
+    }
+    
+    
+    // Create JSON from given String.
+    func getJSONFromString(data: String) -> JSON? {
+        if let dataFromString = data.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            return JSON(data: dataFromString)
+        }
+        
+        return nil
     }
 }
