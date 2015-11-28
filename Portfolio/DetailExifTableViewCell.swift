@@ -12,9 +12,5 @@ class DetailExifTableViewCell: UITableViewCell {
     
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var cameraLabel: UILabel!
-    @IBOutlet weak var lensLabel: UILabel!
-    @IBOutlet weak var focalLengthLabel: UILabel!
-    @IBOutlet weak var sensitivityLabel: UILabel!
-    @IBOutlet weak var apertureLabel: UILabel!
-    @IBOutlet weak var shutterSpeedLabel: UILabel!
+    @IBOutlet weak var photoLabel: UILabel!
 }

@@ -236,35 +236,48 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! DetailExifTableViewCell
         
         if let photo = photo {
+            // Rating.
             if let ratingHigh = photo.ratingHigh {
                 cell.ratingLabel.text = String(format: "%.1f", ratingHigh)
             }
+            
+            // Camera & lens.
+            var cameraDetail: String?
+            
             if let camera = photo.camera {
                 if let cameraName = cameraList.list[camera] {
-                    cell.cameraLabel.text = cameraName
+                    cameraDetail = appendText(cameraDetail, add: cameraName, separator: nil)
                 } else {
-                    cell.cameraLabel.text = camera
+                    cameraDetail = appendText(cameraDetail, add: camera, separator: nil)
                 }
             }
+            
             if let lens = photo.lens {
                 if let lensName = lensList.list[lens] {
-                    cell.lensLabel.text = lensName
+                    cameraDetail = appendText(cameraDetail, add: lensName, separator: " & ")
                 } else {
-                    cell.lensLabel.text = lens
+                    cameraDetail = appendText(cameraDetail, add: lens, separator: " & ")
                 }
             }
+            cell.cameraLabel.text = cameraDetail
+            
+            // EXIF data.
+            var photoDetail: String?
+            
             if let focalLength = photo.focalLength {
-                cell.focalLengthLabel.text = focalLength + "mm"
+                photoDetail = appendText(photoDetail, add: focalLength + "mm", separator: " | ")
             }
             if let aperture = photo.aperture {
-                cell.apertureLabel.text = "f/" + aperture
+                photoDetail = appendText(photoDetail, add: "ƒ/" + aperture, separator: " | ")
             }
             if let shutterSpeed = photo.shutterSpeed {
-                cell.shutterSpeedLabel.text = shutterSpeed + "s"
+                photoDetail = appendText(photoDetail, add: shutterSpeed + "s", separator: " | ")
             }
             if let sensitivity = photo.iso {
-                cell.sensitivityLabel.text = "ISO" + sensitivity
+                photoDetail = appendText(photoDetail, add: "ISO" + sensitivity, separator: " | ")
             }
+            
+            cell.photoLabel.text = photoDetail
         }
         
         return cell
@@ -438,6 +451,19 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             cell.addSubview(placeholderView)
             
             photoPlaceholderView = placeholderView
+        }
+    }
+    
+    // Append strings.
+    func appendText(text: String?, add: String, separator: String?) -> String {
+        if (text != nil) {
+            if (separator != nil) {
+                return text! + separator! + add
+            } else {
+                return text! + add
+            }
+        } else {
+            return add
         }
     }
 }
