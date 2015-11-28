@@ -91,7 +91,12 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            self.tableView.rowHeight = 337 // Default height, will be changed in prepareCellPhoto()
+            // Display photo cell to fill the available space. Other cells will be available on scroll.
+            if let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height {
+                self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight
+            } else {
+                self.tableView.rowHeight = self.tableView.frame.height
+            }
             
             return prepareCellPhoto(indexPath)
         case 1:
@@ -170,12 +175,17 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
                 height = width / ratio
             }
             
-            let viewRatio = width / cell.frame.width
-            width = width / viewRatio
-            height = height / viewRatio
+            // Scale photo to fit in cell.
+            let viewWidthRatio = width / cell.frame.width
+            let viewHeightRatio = height / cell.frame.height
             
-            // Set table cell height.
-            self.tableView.rowHeight = height
+            if (viewWidthRatio > viewHeightRatio) {
+                width = width / viewWidthRatio
+                height = height / viewWidthRatio
+            } else {
+                width = width / viewHeightRatio
+                height = height / viewHeightRatio
+            }
             
             // Display placeholder.
             displayPhotoPlaceholder(cell)
@@ -191,8 +201,18 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
                     if let image: UIImage = response.result.value {
                         let imageView = UIImageView(image: image)
                         
+                        var x: CGFloat = 0.0
+                        if (cell.frame.width > image.size.width) {
+                            x = (cell.frame.width - image.size.width) / 2.0
+                        }
+                        
+                        var y: CGFloat = 0.0
+                        if (cell.frame.height > image.size.height) {
+                            y = (cell.frame.height - image.size.height) / 2.0
+                        }
+                        
                         imageView.frame = CGRect(
-                            x: 0.0, y: 0.0,
+                            x: x, y: y,
                             width: self.width, height: self.height
                         )
                         imageView.clipsToBounds = true
@@ -399,13 +419,13 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             let placeholderView = UIImageView(image: image)
             
             var x: CGFloat = 0.0
-            if (self.width > image.size.width) {
-                x = (self.width - image.size.width) / 2.0
+            if (cell.frame.width > image.size.width) {
+                x = (cell.frame.width - image.size.width) / 2.0
             }
             
             var y: CGFloat = 0.0
-            if (self.height > image.size.height) {
-                y = (self.height - image.size.height) / 2.0
+            if (cell.frame.height > image.size.height) {
+                y = (cell.frame.height - image.size.height) / 2.0
             }
             
             placeholderView.frame = CGRect(
