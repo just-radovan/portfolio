@@ -28,8 +28,6 @@ class PortfolioNavigationController: UINavigationController {
     
     // Switch navigation bar to white.
     func setWhiteNavigationBar() {
-        print("White")
-        
         self.navigationBar.barStyle = defaultBarStyle!
         self.navigationBar.tintColor = defaultTintColor!
     }

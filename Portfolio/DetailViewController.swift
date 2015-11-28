@@ -29,6 +29,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     // MARK: Properties - image loader
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
+    var photoPlaceholderView: UIImageView?
     var photoView: UIImageView?
     var width: CGFloat! = 600.0 // Default width of UIImageView; 16:9.
     var height: CGFloat! = 337.0 // Default height of UIImageView; 16:9.
@@ -147,8 +148,6 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     // Handle map movement.
     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         userChangedMap = mapViewRegionDidChangeFromUserInteraction(mapView: mapView)
-        
-        
     }
     
     // MARK: Cell preparation
@@ -158,6 +157,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         let cellId = cells[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! DetailPhotoTableViewCell
         
+        // Remove old photo, if exists.
         if (photoView != nil) {
             photoView!.removeFromSuperview()
         }
@@ -177,6 +177,9 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             // Set table cell height.
             self.tableView.rowHeight = height
             
+            // Display placeholder.
+            displayPhotoPlaceholder(cell)
+            
             // Photo.
             if let thumbnail = photo.getThumbnailForSize(.FULL) {
                 let request = NSURLRequest(URL: NSURL(string: thumbnail.url)!)
@@ -195,7 +198,8 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
                         imageView.clipsToBounds = true
                         imageView.sizeToFit()
                         
-                        cell.insertSubview(imageView, atIndex: 0)
+                        self.photoPlaceholderView?.removeFromSuperview()
+                        cell.addSubview(imageView)
                         
                         self.photoView = imageView
                     }
@@ -384,6 +388,36 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             if let image: UIImage = response.result.value {
                 button.setImage(image, forState: .Normal)
             }
+        }
+    }
+    
+    // MARK: Common methods
+    
+    // Display photo placeholder.
+    func displayPhotoPlaceholder(cell: DetailPhotoTableViewCell) {
+        if let image = UIImage(named: "Photo Placeholder") {
+            let placeholderView = UIImageView(image: image)
+            
+            var x: CGFloat = 0.0
+            if (self.width > image.size.width) {
+                x = (self.width - image.size.width) / 2.0
+            }
+            
+            var y: CGFloat = 0.0
+            if (self.height > image.size.height) {
+                y = (self.height - image.size.height) / 2.0
+            }
+            
+            placeholderView.frame = CGRect(
+                x: x, y: y,
+                width: self.width, height: self.height
+            )
+            placeholderView.clipsToBounds = true
+            placeholderView.sizeToFit()
+            
+            cell.addSubview(placeholderView)
+            
+            photoPlaceholderView = placeholderView
         }
     }
 }
