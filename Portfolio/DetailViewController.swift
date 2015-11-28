@@ -22,6 +22,9 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         "DetailMapTableViewCell"
     ]
     
+    // MARK: Properties - layout
+    let paddingBottom: CGFloat = 91.0
+    
     // MARK: Properties - data
     let cameraList = CameraList()
     let lensList = LensList()
@@ -93,9 +96,9 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         case 0:
             // Display photo cell to fill the available space. Other cells will be available on scroll.
             if let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height {
-                self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight
+                self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight - paddingBottom
             } else {
-                self.tableView.rowHeight = self.tableView.frame.height
+                self.tableView.rowHeight = self.tableView.frame.height - paddingBottom
             }
             
             return prepareCellPhoto(indexPath)
