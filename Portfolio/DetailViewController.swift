@@ -65,6 +65,18 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if let navigationController = self.parentViewController as? PortfolioNavigationController {
+            navigationController.setBlackNavigationBar()
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        if let navigationController = self.parentViewController as? PortfolioNavigationController {
+            navigationController.setWhiteNavigationBar()
+        }
+    }
+    
     // MARK: TableView
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

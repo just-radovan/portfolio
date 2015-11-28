@@ -34,6 +34,7 @@
 		08B7C7481BE65D7E003E0D58 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B7C7471BE65D7E003E0D58 /* DetailViewController.swift */; };
 		08C044521C05F818009190D5 /* CameraList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C044511C05F818009190D5 /* CameraList.swift */; };
 		08C044541C05FA90009190D5 /* LensList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C044531C05FA90009190D5 /* LensList.swift */; };
+		08CE74571C0A223700EC8DCB /* PortfolioNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */; };
 		08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */; };
 		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
 		08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */; };
@@ -82,6 +83,7 @@
 		08B7C7471BE65D7E003E0D58 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		08C044511C05F818009190D5 /* CameraList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraList.swift; sourceTree = "<group>"; };
 		08C044531C05FA90009190D5 /* LensList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensList.swift; sourceTree = "<group>"; };
+		08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioNavigationController.swift; sourceTree = "<group>"; };
 		08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 		08E3CC471BE23F5F00BF0B54 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */,
 				089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */,
 				08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */,
 				08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */,
@@ -422,6 +425,7 @@
 				08B724D21BDF5E1000654E04 /* PhotoDownloader.swift in Sources */,
 				089C159F1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift in Sources */,
 				087AD0511BF3E06E00F67B29 /* MapViewController.swift in Sources */,
+				08CE74571C0A223700EC8DCB /* PortfolioNavigationController.swift in Sources */,
 				08C044541C05FA90009190D5 /* LensList.swift in Sources */,
 				08B724D51BDF64E000654E04 /* Config.swift in Sources */,
 				0834006C1BE37C93007F096D /* ThumbnailMO.swift in Sources */,
