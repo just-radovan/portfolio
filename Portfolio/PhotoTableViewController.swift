@@ -33,7 +33,7 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
         )
         imageDownloader = ImageDownloader(
             configuration: ImageDownloader.defaultURLSessionConfiguration(),
-            downloadPrioritization: .LIFO,
+            downloadPrioritization: .FIFO,
             maximumActiveDownloads: 4,
             imageCache: imageCache
         )
@@ -83,6 +83,13 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
         
         let photo = photos[indexPath.row]
         
+        // Set cell-photo relation.
+        if (cell.photoId == photo.id) {
+            return cell // Displaying the same cell, no need to refresh it.
+        }
+        
+        cell.photoId = photo.id
+        
         // Display photo details.
         cell.titleLabel.text = photo.title
 
@@ -117,19 +124,25 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
         if let photoModels = dataController.getPhotos() {
             photos = photoModels
             tableView.reloadData()
+            
+            print("Photos loaded; \(photos.count)")
+        } else {
+            print("Missing photos!")
         }
     }
     
     // Load and display photo thumbnail.
     // Use cache when possible.
     func displayThumbnail(cell: PhotoTableViewCell, id: Int64, url: String) {
-        // Cancel outdated requests
+        // Remove old image.
+        cell.thumbnailView.image = nil
+        
+        // Cancel outdated requests.
         if let requestReceipt = cell.requestReceipt {
             imageDownloader.cancelRequestForRequestReceipt(requestReceipt)
-            cell.thumbnailView.image = nil
         }
         
-        // Set thumbnail params
+        // Set thumbnail params.
         let request = NSURLRequest(URL: NSURL(string: url)!)
         let size = CGSize(width: 160.0, height: 90.0)
         let filter = AspectScaledToFillSizeFilter(size: size)

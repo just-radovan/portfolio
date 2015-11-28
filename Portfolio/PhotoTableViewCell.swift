@@ -16,5 +16,6 @@ class PhotoTableViewCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var takenLabel: UILabel!
     
+    var photoId: Int64?
     var requestReceipt: RequestReceipt?
 }
