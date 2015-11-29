@@ -246,42 +246,82 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             }
             
             // Camera & lens.
-            var cameraDetail: String?
+            var cameraDetail: NSMutableAttributedString?
             
             if let camera = photo.camera {
                 if let cameraName = cameraList.list[camera] {
-                    cameraDetail = appendText(cameraDetail, add: cameraName, separator: nil)
+                    cameraDetail = appendText(
+                        cameraDetail,
+                        add: cameraName,
+                        separator: nil,
+                        styleSeparator: true
+                    )
                 } else {
-                    cameraDetail = appendText(cameraDetail, add: camera, separator: nil)
+                    cameraDetail = appendText(
+                        cameraDetail,
+                        add: camera,
+                        separator: nil,
+                        styleSeparator: true
+                    )
                 }
             }
             
             if let lens = photo.lens {
                 if let lensName = lensList.list[lens] {
-                    cameraDetail = appendText(cameraDetail, add: lensName, separator: " & ")
+                    cameraDetail = appendText(
+                        cameraDetail,
+                        add: lensName,
+                        separator: " & ",
+                        styleSeparator: true
+                    )
                 } else {
-                    cameraDetail = appendText(cameraDetail, add: lens, separator: " & ")
+                    cameraDetail = appendText(
+                        cameraDetail,
+                        add: lens,
+                        separator: " & ",
+                        styleSeparator: true
+                    )
                 }
             }
-            cell.cameraLabel.text = cameraDetail
+            cell.cameraLabel.attributedText = cameraDetail
             
             // EXIF data.
-            var photoDetail: String?
+            var photoDetail: NSMutableAttributedString?
             
             if let focalLength = photo.focalLength {
-                photoDetail = appendText(photoDetail, add: focalLength + "mm", separator: " | ")
+                photoDetail = appendText(
+                    photoDetail,
+                    add: focalLength + "mm",
+                    separator: " // ",
+                    styleSeparator: true
+                )
             }
             if let aperture = photo.aperture {
-                photoDetail = appendText(photoDetail, add: "ƒ/" + aperture, separator: " | ")
+                photoDetail = appendText(
+                    photoDetail,
+                    add: "ƒ/" + aperture,
+                    separator: " // ",
+                    styleSeparator: true
+                )
             }
             if let shutterSpeed = photo.shutterSpeed {
-                photoDetail = appendText(photoDetail, add: shutterSpeed + "s", separator: " | ")
+                photoDetail = appendText(
+                    photoDetail,
+                    add: shutterSpeed + "s",
+                    separator: " // ",
+                    styleSeparator: true
+                )
             }
             if let sensitivity = photo.iso {
-                photoDetail = appendText(photoDetail, add: "ISO" + sensitivity, separator: " | ")
+                photoDetail = appendText(
+                    photoDetail,
+                    add: "ISO" + sensitivity,
+                    separator: " // ",
+                    styleSeparator: true
+                )
             }
             
-            cell.photoLabel.text = photoDetail
+            cell.photoLabel.attributedText = photoDetail
         }
         
         return cell
@@ -458,16 +498,26 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         }
     }
     
-    // Append strings.
-    func appendText(text: String?, add: String, separator: String?) -> String {
+    // Append strings to attributed string.
+    func appendText(text: NSMutableAttributedString?, add: String, separator: String?, styleSeparator: Bool) -> NSMutableAttributedString {
         if (text != nil) {
             if (separator != nil) {
-                return text! + separator! + add
+                let range = NSRange(location: text!.length, length: separator!.characters.count)
+                text!.appendAttributedString(NSAttributedString(string: separator! + add))
+                text!.addAttribute(
+                    NSForegroundColorAttributeName,
+                    value: UIColor.darkGrayColor(),
+                    range: range
+                )
+                
+                return text!
             } else {
-                return text! + add
+                text!.appendAttributedString(NSAttributedString(string: add))
+                
+                return text!
             }
         } else {
-            return add
+            return NSMutableAttributedString(string: add)
         }
     }
 }
