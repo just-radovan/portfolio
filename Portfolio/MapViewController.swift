@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Properties - location
     let locationManager: CLLocationManager!
     let mapRadius: CLLocationDistance = 2000 // Metres?
+    let satelliteMapThreshold = 1000.0 // Metres
     var mapCentered = false
     
     // MARK: Properties - photos
@@ -114,6 +115,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return pin
     }
     
+    // Handle map movement.
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        checkZoomLevel(
+            mapView: mapView,
+            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+        )
+    }
+    
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+        checkZoomLevel(
+            mapView: mapView,
+            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+        )
+    }
+    
     // Display photo detail.
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if (control == view.leftCalloutAccessoryView) { // Left button
@@ -141,6 +157,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if let image: UIImage = response.result.value {
                 button.setImage(image, forState: .Normal)
             }
+        }
+    }
+    
+    // Switch mode according to zoom.
+    private func checkZoomLevel(mapView mapView: MKMapView, mapWidthInMetres: Double) {
+        var type = MKMapType.Standard
+        if (mapWidthInMetres < satelliteMapThreshold) {
+            type = MKMapType.SatelliteFlyover
+        } else {
+            type = MKMapType.Standard
+        }
+        
+        if (mapView.mapType != type) {
+            mapView.mapType = type
         }
     }
     

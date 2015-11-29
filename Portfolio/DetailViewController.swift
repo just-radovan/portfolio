@@ -40,6 +40,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     // MARK: Properties - location
     let locationManager: CLLocationManager!
     let dataController = DataController()
+    let satelliteMapThreshold = 1000.0 // Metres
     let mapRadius: CLLocationDistance = 150 // Metres?
     let annotationViewReuseID = "mapPin"
     var lastKnownUserLocation: MKUserLocation?
@@ -157,6 +158,18 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     // Handle map movement.
     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         userChangedMap = mapViewRegionDidChangeFromUserInteraction(mapView: mapView)
+        
+        checkZoomLevel(
+            mapView: mapView,
+            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+        )
+    }
+    
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+        checkZoomLevel(
+            mapView: mapView,
+            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+        )
     }
     
     // MARK: Cell preparation
@@ -385,6 +398,20 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     
     // MARK: Map functions
     
+    // Switch mode according to zoom.
+    private func checkZoomLevel(mapView mapView: MKMapView, mapWidthInMetres: Double) {
+        var type = MKMapType.Standard
+        if (mapWidthInMetres < satelliteMapThreshold) {
+            type = MKMapType.SatelliteFlyover
+        } else {
+            type = MKMapType.Standard
+        }
+        
+        if (mapView.mapType != type) {
+            mapView.mapType = type
+        }
+    }
+    
     // Check if user moved the map.
     private func mapViewRegionDidChangeFromUserInteraction(mapView mapView: MKMapView) -> Bool {
         let view = mapView.subviews[0]
@@ -407,8 +434,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             mapRadius,
             mapRadius
         )
-        
-        cell.mapView.mapType = MKMapType.Satellite
+
         cell.mapView.setRegion(coordinateRegion, animated: false)
     }
     
