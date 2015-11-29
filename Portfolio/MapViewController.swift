@@ -116,13 +116,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     // Handle map movement.
-    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         checkZoomLevel(
             mapView: mapView,
             mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
         )
     }
     
+    // Check map after it finished rendering.
     func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
         checkZoomLevel(
             mapView: mapView,
@@ -141,7 +142,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // Load and display photo thumbnail.
     // Use cache when possible.
-    func displayThumbnail(button: UIButton, photo: PhotoModel) {
+    private func displayThumbnail(button: UIButton, photo: PhotoModel) {
         let url = photo.getThumbnailForSize(.PIN)?.url
         if (url == nil) {
             return
@@ -175,7 +176,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     // Center and zoom the map.
-    func setUpMap(center: CLLocation) {
+    private func setUpMap(center: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(
             center.coordinate,
             mapRadius,
@@ -188,7 +189,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: Photos
     // Load and display photos.
-    func loadPhotos() {
+    private func loadPhotos() {
         if let photoModels = dataController.getPhotos() {
             photos = photoModels
             addAnnotationsToMap()
@@ -196,7 +197,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     // Add annotations to the map.
-    func addAnnotationsToMap() {
+    private func addAnnotationsToMap() {
         for photo in photos {
             if let latitude = photo.latitude, longitude = photo.longitude {
                 let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)

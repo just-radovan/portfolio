@@ -172,6 +172,22 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         )
     }
     
+    // Handle map movement.
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        checkZoomLevel(
+            mapView: mapView,
+            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+        )
+    }
+    
+    // Check map after it finished rendering.
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+        checkZoomLevel(
+            mapView: mapView,
+            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+        )
+    }
+    
     // MARK: Cell preparation
     
     // Prepare cell with photo.
