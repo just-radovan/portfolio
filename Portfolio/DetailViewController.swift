@@ -86,9 +86,11 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let exifHeight: CGFloat = 156.0
+        
         switch indexPath.row {
         case 0:
-            // Display photo cell to fill the available space. Other cells will be available on scroll.
+            // Display only photo and rating on screen. Scroll for more.
             if let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height {
                 self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight - paddingBottom
             } else {
@@ -97,11 +99,16 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             
             return prepareCellPhoto(indexPath)
         case 1:
-            self.tableView.rowHeight = 156
+            self.tableView.rowHeight = exifHeight
             
             return prepareCellExif(indexPath)
         default:
-            self.tableView.rowHeight = 300
+            // Fill the screen with EXIF data and the map.
+            if let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height {
+                self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight - exifHeight - 8
+            } else {
+                self.tableView.rowHeight = self.tableView.frame.height - exifHeight - 8
+            }
             
             return prepareCellMap(indexPath)
         }
