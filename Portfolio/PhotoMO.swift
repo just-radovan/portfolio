@@ -59,6 +59,7 @@ class PhotoMO: NSManagedObject {
         photoModel.lens = self.lens
         photoModel.latitude = self.latitude?.doubleValue
         photoModel.longitude = self.longitude?.doubleValue
+        photoModel.downloaded = self.downloaded
         
         return photoModel
     }

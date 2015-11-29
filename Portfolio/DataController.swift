@@ -35,6 +35,8 @@ class DataController {
             } catch {
                 fatalError("Error migrating store '\(error)'.")
             }
+            
+            print("CoreData init finished...")
         }
     }
     
@@ -157,11 +159,11 @@ class DataController {
         var results: [PhotoMO]?
         do {
             results = try managedObjectContext.executeFetchRequest(request) as? [PhotoMO]
-        } catch {
-            print("Failed to load photos.")
+        } catch let error as NSError {
+            print("Failed to load photos; error: \(error.code)")
         }
         
-        if results != nil {
+        if (results != nil) {
             var models = [PhotoModel]()
             for photoMO in results! {
                 var photoModel = photoMO.getPhotoModel();

@@ -13,7 +13,7 @@ import AlamofireImage
 class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate {
     
     // MARK: Properties - photos
-    let dataController = DataController()
+    let dataController: DataController
     let thumbnailCacheID = "thumbnail"
     var photos = [PhotoModel]()
     var imageCache: AutoPurgingImageCache
@@ -27,6 +27,9 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
     let dateFormatter = NSDateFormatter()
     
     required init?(coder aDecoder: NSCoder) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        dataController = appDelegate.dataController
+        
         imageCache = AutoPurgingImageCache(
             memoryCapacity: 100 * 1024 * 1024,
             preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
@@ -49,13 +52,6 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
         
         loadPhotos()
         initLocation()
-        
-        let downloader = PhotoDownloader()
-        downloader.refresh() { downloadedPhotos in
-            if (downloadedPhotos > 0) {
-                self.loadPhotos()
-            }
-        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -20,16 +20,20 @@ class PhotoDownloader {
     
     // MARK: Properties
     
-    let dataController = DataController()
+    let dataController: DataController
     let dateFormatter = NSDateFormatter()
     let photoBaseUrl = "https://api.500px.com/v1/photos"
     
     let defaultValues = NSUserDefaults.standardUserDefaults()
-    let downloadInterval: NSTimeInterval = 4 * 60 * 60
+    let downloadIntervalList: NSTimeInterval = 4 * 60 * 60 // 4 hrs
+    let downloadIntervalDetail: NSTimeInterval = 2 * 24 * 60 * 60 // 2 days
     
     // MARK: Initialization
     
     init() {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        dataController = appDelegate.dataController
+        
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ" // 2015-08-11T18:20:33-04:00
     }
     
@@ -38,7 +42,7 @@ class PhotoDownloader {
     // Check last download and make sure not to download photos everytime.
     func refresh(completion: (downloadedPhotos: Int) -> Void) {
         if let lastDownload = defaultValues.valueForKey(UserDefaultsEnum.LAST_DOWNLOAD.rawValue) as? NSDate {
-            if (abs(lastDownload.timeIntervalSinceNow) < downloadInterval) {
+            if (abs(lastDownload.timeIntervalSinceNow) < downloadIntervalList) {
                 return // Photos were downloaded before a while... skipping.
             }
         }
@@ -185,9 +189,28 @@ class PhotoDownloader {
         return photos
     }
     
-    // MARK: Photo (single)
+    // MARK: Photo (detail)
     
-    // Download photo detail
+    // Refresh all photo details available. Return number of refreshed details.
+    func refreshAllDetails() {
+        if let photos = dataController.getPhotos() {
+            for photo in photos {
+                if let lastDownload = photo.downloaded {
+                    if (abs(lastDownload.timeIntervalSinceNow) < downloadIntervalDetail) {
+                        continue // Photo detail was refreshed recently.
+                    }
+                }
+                
+                refreshDetail(photo) { photo in
+                    if (photo != nil) {
+                        self.dataController.saveOrUpdatePhoto(photo!)
+                    }
+                }
+            }
+        }
+    }
+    
+    // Refresh photo detail
     func refreshDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
         let params = [
             "consumer_key": Config.consumerKey
