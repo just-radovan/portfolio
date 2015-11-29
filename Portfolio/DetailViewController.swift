@@ -242,7 +242,30 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         if let photo = photo {
             // Rating.
             if let ratingHigh = photo.ratingHigh {
-                cell.ratingLabel.text = String(format: "%.1f", ratingHigh)
+                let ratingString = String(format: "%.1f", ratingHigh)
+                
+                if (ratingString.containsString(".")) {
+                    let ratingAttributed = NSMutableAttributedString(string: ratingString)
+                    
+                    let range = NSRange(location: ratingAttributed.length - 2, length: 2)
+                    let decimalFont = UIFont.systemFontOfSize(32.0)
+                    let decimalColor = UIColor.darkGrayColor()
+                    
+                    ratingAttributed.addAttribute(
+                        NSFontAttributeName,
+                        value: decimalFont,
+                        range: range
+                    )
+                    ratingAttributed.addAttribute(
+                        NSForegroundColorAttributeName,
+                        value: decimalColor,
+                        range: range
+                    )
+                    
+                    cell.ratingLabel.attributedText = ratingAttributed
+                } else {
+                    cell.ratingLabel.text = ratingString
+                }
             }
             
             // Camera & lens.
