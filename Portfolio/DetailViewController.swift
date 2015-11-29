@@ -180,12 +180,13 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         )
     }
     
-    // Check map after it finished rendering.
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
-        checkZoomLevel(
-            mapView: mapView,
-            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
-        )
+    // Render path
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+        renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.35)
+        renderer.lineWidth = 5.0
+        
+        return renderer
     }
     
     // MARK: Cell preparation
@@ -452,6 +453,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         )
 
         cell.mapView.setRegion(coordinateRegion, animated: false)
+        displayDirectons(mapView: cell.mapView)
     }
     
     
@@ -533,10 +535,40 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         }
     }
     
+    // Display directions to photo.
+    private func displayDirectons(mapView mapView: MKMapView) {
+        if (photo == nil || photo!.latitude == nil || photo!.longitude == nil) {
+            return
+        }
+        
+        let destination = MKMapItem(
+            placemark: MKPlacemark(
+                coordinate: CLLocationCoordinate2D(latitude: photo!.latitude!, longitude: photo!.longitude!),
+                addressDictionary: nil
+            )
+        )
+        
+        let request = MKDirectionsRequest()
+        request.source = MKMapItem.mapItemForCurrentLocation()
+        request.destination = destination
+        request.transportType = MKDirectionsTransportType.Walking
+        request.requestsAlternateRoutes = false
+        
+        let directions = MKDirections(request: request)
+        directions.calculateDirectionsWithCompletionHandler { response, error in
+            guard let unwrappedResponse = response else { return }
+            
+            for route in unwrappedResponse.routes {
+                mapView.addOverlay(route.polyline)
+                mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+            }
+        }
+    }
+    
     // MARK: Common methods
     
     // Display photo placeholder.
-    func displayPhotoPlaceholder(cell: DetailPhotoTableViewCell) {
+    private func displayPhotoPlaceholder(cell: DetailPhotoTableViewCell) {
         if let image = UIImage(named: "Photo Placeholder") {
             let placeholderView = UIImageView(image: image)
             

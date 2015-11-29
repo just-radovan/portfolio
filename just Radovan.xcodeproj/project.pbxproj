@@ -34,6 +34,7 @@
 		08B7C7481BE65D7E003E0D58 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B7C7471BE65D7E003E0D58 /* DetailViewController.swift */; };
 		08C044521C05F818009190D5 /* CameraList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C044511C05F818009190D5 /* CameraList.swift */; };
 		08C044541C05FA90009190D5 /* LensList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C044531C05FA90009190D5 /* LensList.swift */; };
+		08C292311C0B48AB0002D4D3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08C292301C0B48AB0002D4D3 /* MapKit.framework */; };
 		08CE74571C0A223700EC8DCB /* PortfolioNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */; };
 		08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */; };
 		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
@@ -83,6 +84,7 @@
 		08B7C7471BE65D7E003E0D58 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		08C044511C05F818009190D5 /* CameraList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraList.swift; sourceTree = "<group>"; };
 		08C044531C05FA90009190D5 /* LensList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensList.swift; sourceTree = "<group>"; };
+		08C292301C0B48AB0002D4D3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioNavigationController.swift; sourceTree = "<group>"; };
 		08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08C292311C0B48AB0002D4D3 /* MapKit.framework in Frameworks */,
 				75F315D118E2BD65C55AE2E3 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +240,7 @@
 		B9945130F8BADC497CDC4826 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08C292301C0B48AB0002D4D3 /* MapKit.framework */,
 				0CAAAE33C57B38F9193831BA /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -305,6 +309,11 @@
 					0834EE191BDE138400A5D413 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 4W495F46Z6;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					0834EE2D1BDE138400A5D413 = {
 						CreatedOnToolsVersion = 7.1;
