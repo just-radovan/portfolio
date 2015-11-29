@@ -46,16 +46,10 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     var userChangedMap: Bool = false
 
     required init?(coder aDecoder: NSCoder) {
-        imageCache = AutoPurgingImageCache(
-            memoryCapacity: 100 * 1024 * 1024,
-            preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
-        )
-        imageDownloader = ImageDownloader(
-            configuration: ImageDownloader.defaultURLSessionConfiguration(),
-            downloadPrioritization: .LIFO,
-            maximumActiveDownloads: 4,
-            imageCache: imageCache
-        )
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        imageCache = appDelegate.imageCache
+        imageDownloader = appDelegate.imageDownloader
+        
         locationManager = CLLocationManager()
         
         super.init(coder: aDecoder)

@@ -29,19 +29,10 @@ class PhotoTableViewController: UITableViewController, CLLocationManagerDelegate
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         dataController = appDelegate.dataController
+        imageCache = appDelegate.imageCache
+        imageDownloader = appDelegate.imageDownloader
         
-        imageCache = AutoPurgingImageCache(
-            memoryCapacity: 100 * 1024 * 1024,
-            preferredMemoryUsageAfterPurge: 60 * 1024 * 1024
-        )
-        imageDownloader = ImageDownloader(
-            configuration: ImageDownloader.defaultURLSessionConfiguration(),
-            downloadPrioritization: .FIFO,
-            maximumActiveDownloads: 4,
-            imageCache: imageCache
-        )
         locationManager = CLLocationManager()
-        
         dateFormatter.dateFormat = "dd.MM.yyyy"
         
         super.init(coder: aDecoder)
