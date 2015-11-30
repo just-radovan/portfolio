@@ -42,9 +42,11 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     let dataController = DataController()
     let satelliteMapThreshold = 1000.0 // Metres
     let mapRadius: CLLocationDistance = 150 // Metres?
-    let annotationViewReuseID = "mapPin"
+    let distanceAnnotationViewReuseID = "distanceAnnotation"
+    let photoAnnotationViewReuseID = "photoAnnotation"
     var lastKnownUserLocation: MKUserLocation?
     var userChangedMap: Bool = false
+    var distanceAnnotation: DistanceAnnotation?
 
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -121,31 +123,11 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation) {
             return nil
-        }
-        
-        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationViewReuseID)
-        var button: UIButton?
-        
-        if (pin != nil) {
-            button = pin!.leftCalloutAccessoryView as? UIButton
-            
-            pin!.annotation = annotation
+        } else if (annotation is DistanceAnnotation) {
+            return prepareDistanceAnnotation(mapView, viewForAnnotation: annotation)
         } else {
-            button = UIButton(type: UIButtonType.Custom)
-            button!.frame.size.width = 46
-            button!.frame.size.height = 46
-            
-            pin = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationViewReuseID)
-            pin!.image = UIImage(named: "Pin Photo")
-            pin!.leftCalloutAccessoryView = button
-            pin!.canShowCallout = true
+            return preparePhotoAnnotation(mapView, viewForAnnotation: annotation)
         }
-        
-        if let button = button {
-            displayThumbnail(button)
-        }
-        
-        return pin
     }
     
     // Handle new user's location.
@@ -170,6 +152,13 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             mapView: mapView,
             mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
         )
+        
+        // Display distance annotation; only for the first time.
+        if (distanceAnnotation != nil) {
+            mapView.selectAnnotation(distanceAnnotation!, animated: true)
+            
+            distanceAnnotation = nil
+        }
     }
     
     // Handle map movement.
@@ -500,6 +489,47 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         mapView.setRegion(viewport, animated: true)
     }
     
+    
+    
+    // Prepare distance map annotation.
+    private func prepareDistanceAnnotation(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(distanceAnnotationViewReuseID)
+        if (pin != nil) {
+            pin!.annotation = annotation
+        } else {pin = MKAnnotationView(annotation: annotation, reuseIdentifier: distanceAnnotationViewReuseID)
+            pin!.image = nil
+            pin!.canShowCallout = true
+        }
+        
+        return pin
+    }
+    
+    // Prepare photo map annotation.
+    private func preparePhotoAnnotation(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var button: UIButton?
+        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(photoAnnotationViewReuseID)
+        if (pin != nil) {
+            button = pin!.leftCalloutAccessoryView as? UIButton
+            
+            pin!.annotation = annotation
+        } else {
+            button = UIButton(type: UIButtonType.Custom)
+            button!.frame.size.width = 46
+            button!.frame.size.height = 46
+            
+            pin = MKAnnotationView(annotation: annotation, reuseIdentifier: photoAnnotationViewReuseID)
+            pin!.image = UIImage(named: "Pin Photo")
+            pin!.leftCalloutAccessoryView = button
+            pin!.canShowCallout = true
+        }
+        
+        if let button = button {
+            displayThumbnail(button)
+        }
+        
+        return pin
+    }
+    
     // Add annotation to the map
     private func addAnnotationToMap(cell: DetailMapTableViewCell, title: String, latitude: Double, longitude: Double) {
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -561,6 +591,17 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             for route in unwrappedResponse.routes {
                 mapView.addOverlay(route.polyline)
                 mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                
+                let distance = String(format: "%0.1f km", route.distance / 1000.0)
+                let middle = route.polyline.points()[route.polyline.pointCount / 10]
+                let location = MKCoordinateForMapPoint(middle)
+                let annotation = DistanceAnnotation()
+                annotation.coordinate = location
+                annotation.title = "Distance to photo point: \(distance)"
+                
+                mapView.addAnnotation(annotation)
+                
+                self.distanceAnnotation = annotation
             }
         }
     }
