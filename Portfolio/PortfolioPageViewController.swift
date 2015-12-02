@@ -70,7 +70,7 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     func viewControllerAtIndex(index: Int) -> UIViewController? {
         switch index {
         case 0:
-            return self.storyboard?.instantiateViewControllerWithIdentifier("PhotoTableViewController")
+            return self.storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController")
         case 1:
             return self.storyboard?.instantiateViewControllerWithIdentifier("MapViewController")
         default:
@@ -107,7 +107,7 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     
     // Get page index for given UIViewController.
     func getCurrentIndex(viewController: UIViewController) -> Int {
-        if let _ = viewController as? PhotoTableViewController {
+        if let _ = viewController as? PhotoCollectionViewController {
             return 0
         } else if let _ = viewController as? MapViewController {
             return 1
