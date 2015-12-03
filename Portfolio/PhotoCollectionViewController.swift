@@ -66,7 +66,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     // MARK: Peek & pop
     
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        let indexPath = self.collectionView?.indexPathForItemAtPoint(location)
+        let indexPath = self.collectionView?.indexPathForItemAtPoint(self.view.convertPoint(location, toView: self.collectionView))
         if (indexPath == nil) {
             return nil
         }
