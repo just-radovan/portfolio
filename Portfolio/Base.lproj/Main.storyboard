@@ -30,30 +30,35 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mel-kE-Nif">
-                                            <rect key="frame" x="0.0" y="56" width="160" height="34"/>
+                                            <rect key="frame" x="0.0" y="57" width="160" height="33"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aky-bv-Fbz">
+                                                    <rect key="frame" x="8" y="8" width="144" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="l9u-1l-CWd"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="1" height="1"/>
+                                                </label>
+                                            </subviews>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.33000000000000002" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="34" id="1Hi-DR-h21"/>
+                                                <constraint firstItem="Aky-bv-Fbz" firstAttribute="leading" secondItem="Mel-kE-Nif" secondAttribute="leading" constant="8" id="7gg-5u-OZi"/>
+                                                <constraint firstAttribute="bottom" secondItem="Aky-bv-Fbz" secondAttribute="bottom" constant="8" id="Ii3-H0-yy9"/>
+                                                <constraint firstAttribute="height" constant="33" id="oOL-9M-leZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Aky-bv-Fbz" secondAttribute="trailing" constant="8" id="w3d-LP-AuZ"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aky-bv-Fbz">
-                                            <rect key="frame" x="8" y="63" width="144" height="19"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="shadowOffset" width="1" height="1"/>
-                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Mel-kE-Nif" secondAttribute="bottom" id="2QP-gy-h2O"/>
-                                    <constraint firstItem="Aky-bv-Fbz" firstAttribute="trailing" secondItem="oll-PP-bLa" secondAttribute="trailingMargin" id="JCW-LD-6GM"/>
-                                    <constraint firstItem="Aky-bv-Fbz" firstAttribute="leading" secondItem="oll-PP-bLa" secondAttribute="leadingMargin" id="Ohq-bX-WPA"/>
-                                    <constraint firstItem="Mel-kE-Nif" firstAttribute="leading" secondItem="oll-PP-bLa" secondAttribute="leading" id="rJw-Kz-oFf"/>
-                                    <constraint firstItem="Aky-bv-Fbz" firstAttribute="bottom" secondItem="oll-PP-bLa" secondAttribute="bottomMargin" id="uAo-xw-naF"/>
-                                    <constraint firstAttribute="trailing" secondItem="Mel-kE-Nif" secondAttribute="trailing" id="uHL-ks-pYK"/>
+                                    <constraint firstItem="Mel-kE-Nif" firstAttribute="leading" secondItem="oll-PP-bLa" secondAttribute="leading" id="MPz-EH-gjm"/>
+                                    <constraint firstAttribute="bottom" secondItem="Mel-kE-Nif" secondAttribute="bottom" id="SAt-Kk-Kqm"/>
+                                    <constraint firstAttribute="trailing" secondItem="Mel-kE-Nif" secondAttribute="trailing" id="gFP-0a-gqz"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="titleBackgroundView" destination="Mel-kE-Nif" id="Ae9-6o-pJQ"/>
