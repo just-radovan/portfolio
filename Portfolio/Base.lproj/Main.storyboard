@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
     <scenes>
         <!--Photo Collection View Controller-->
@@ -63,10 +62,7 @@
                                 <connections>
                                     <outlet property="titleBackgroundView" destination="Mel-kE-Nif" id="Ae9-6o-pJQ"/>
                                     <outlet property="titleLabel" destination="Aky-bv-Fbz" id="ytg-Kc-vKp"/>
-                                    <segue destination="Eb6-M1-oyG" kind="show" identifier="ShowPhotoDetailFromCollection" id="bhC-tx-BiQ">
-                                        <segue key="commit" inheritsFrom="parent" id="NAM-eF-ed2"/>
-                                        <segue key="preview" inheritsFrom="commit" id="u7T-jf-seD"/>
-                                    </segue>
+                                    <segue destination="Eb6-M1-oyG" kind="show" identifier="ShowPhotoDetailFromCollection" id="bhC-tx-BiQ"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -145,7 +141,7 @@
         <!--Photo Detail-->
         <scene sceneID="1f3-io-WXe">
             <objects>
-                <tableViewController storyboardIdentifier="PhotoDetailViewController" id="Eb6-M1-oyG" customClass="DetailViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DetailViewController" id="Eb6-M1-oyG" customClass="DetailViewController" customModule="just_Radovan" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="300" sectionHeaderHeight="28" sectionFooterHeight="28" id="vJO-Mg-OsK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

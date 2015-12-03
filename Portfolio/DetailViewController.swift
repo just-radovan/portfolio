@@ -12,8 +12,14 @@ import AlamofireImage
 
 class DetailViewController: UITableViewController, MKMapViewDelegate {
     
-    // MARK: Properties - photo
+    // MARK: Properties - base
     var photo: PhotoModel?
+    var peek: Bool = false {
+        
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     
     // MARK: Properties - table cells
     let cells = [
@@ -85,7 +91,11 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cells.count
+        if (peek) {
+            return 2 // Show only first two cells.
+        } else {
+            return cells.count
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -93,11 +103,16 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         
         switch indexPath.row {
         case 0:
-            // Display only photo and rating on screen. Scroll for more.
-            if let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height {
-                self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight - paddingBottom
+            if (peek) {
+                // Display photo and EXIF. Nothing more.
+                self.tableView.rowHeight = self.tableView.frame.height - exifHeight
             } else {
-                self.tableView.rowHeight = self.tableView.frame.height - paddingBottom
+                // Display only photo and rating on screen. Scroll for more.
+                if let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height {
+                    self.tableView.rowHeight = self.tableView.frame.height - navigationBarHeight - paddingBottom
+                } else {
+                    self.tableView.rowHeight = self.tableView.frame.height - paddingBottom
+                }
             }
             
             return prepareCellPhoto(indexPath)
@@ -191,24 +206,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         }
         
         if let photo = photo {
-            // Calculate photo view size.
-            if let photoWidth = photo.width, photoHeight = photo.height {
-                let ratio = CGFloat(photoWidth) / CGFloat(photoHeight)
-                
-                height = width / ratio
-            }
-            
-            // Scale photo to fit in cell.
-            let viewWidthRatio = width / cell.frame.width
-            let viewHeightRatio = height / cell.frame.height
-            
-            if (viewWidthRatio > viewHeightRatio) {
-                width = width / viewWidthRatio
-                height = height / viewWidthRatio
-            } else {
-                width = width / viewHeightRatio
-                height = height / viewHeightRatio
-            }
+            calculatePhotoSize(viewWidth: cell.frame.width, viewHeight: cell.frame.height)
             
             // Display placeholder.
             displayPhotoPlaceholder(cell)
@@ -607,6 +605,30 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     }
     
     // MARK: Common methods
+    
+    // Calculate photo size
+    private func calculatePhotoSize(viewWidth viewWidth: CGFloat, viewHeight: CGFloat) {
+        if let photo = photo {
+            // Calculate photo view size.
+            if let photoWidth = photo.width, photoHeight = photo.height {
+                let ratio = CGFloat(photoWidth) / CGFloat(photoHeight)
+                
+                height = width / ratio
+            }
+            
+            // Scale photo to fit in cell.
+            let viewWidthRatio = width / viewWidth
+            let viewHeightRatio = height / viewHeight
+            
+            if (viewWidthRatio > viewHeightRatio) {
+                width = width / viewWidthRatio
+                height = height / viewWidthRatio
+            } else {
+                width = width / viewHeightRatio
+                height = height / viewHeightRatio
+            }
+        }
+    }
     
     // Display photo placeholder.
     private func displayPhotoPlaceholder(cell: DetailPhotoTableViewCell) {

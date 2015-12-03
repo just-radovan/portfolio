@@ -9,7 +9,7 @@
 import UIKit
 import AlamofireImage
 
-class PhotoCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class PhotoCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIViewControllerPreviewingDelegate {
 
     // MARK: Properties - cells
     let minimumSpacing: CGFloat = 4.0
@@ -43,9 +43,12 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = minimumSpacing
         layout.minimumLineSpacing = minimumSpacing
-        
         self.collectionView?.collectionViewLayout = layout
         
+        if (UIApplication.sharedApplication().keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) {
+            self.registerForPreviewingWithDelegate(self, sourceView: self.view)
+        }
+    
         loadPhotos()
     }
     
@@ -56,6 +59,35 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
             let selectedPhoto = photos[indexPath.row]
             
             detailViewController.photo = selectedPhoto
+            detailViewController.peek = (segue.identifier == "PeekPhotoDetailFromCollection")
+        }
+    }
+    
+    // MARK: Peek & pop
+    
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        let indexPath = self.collectionView?.indexPathForItemAtPoint(location)
+        if (indexPath == nil) {
+            return nil
+        }
+        
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as? DetailViewController {
+            let selectedPhoto = photos[indexPath!.row]
+            
+            controller.photo = selectedPhoto
+            controller.peek = true
+            
+            return controller
+        }
+        
+        return nil
+    }
+    
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        if let controller = viewControllerToCommit as? DetailViewController {
+            controller.peek = false
+            
+            self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
         }
     }
     
@@ -65,13 +97,13 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         return 1
     }
 
-
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
 
     // Get cell for given context.
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
         let cellId = "PhotoCollectionViewCell"
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! PhotoCollectionViewCell
         
