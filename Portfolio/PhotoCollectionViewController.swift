@@ -102,8 +102,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     }
 
     // Get cell for given context.
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
-        -> UICollectionViewCell {
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cellId = "PhotoCollectionViewCell"
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! PhotoCollectionViewCell
         

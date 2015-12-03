@@ -133,7 +133,15 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     }
     
     // MARK: MapView
-    
+	
+	// Handle map after it's rendered.
+	func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+		checkZoomLevel(
+			mapView: mapView,
+			mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
+		)
+	}
+	
     // Handle adding annotation view to the map.
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation) {
@@ -162,26 +170,14 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         )
     }
     
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
-        checkZoomLevel(
-            mapView: mapView,
-            mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
-        )
-        
-        // Display distance annotation; only for the first time.
-        if (distanceAnnotation != nil) {
-            mapView.selectAnnotation(distanceAnnotation!, animated: true)
-            
-            distanceAnnotation = nil
-        }
-    }
-    
     // Handle map movement.
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         checkZoomLevel(
             mapView: mapView,
             mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
         )
+		
+		showDistanceAnnotation(mapView)
     }
     
     // Render path
@@ -400,7 +396,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         return cell
     }
     
-    // MARK: Map functions
+    // MARK: Map methods
     
     // Switch mode according to zoom.
     private func checkZoomLevel(mapView mapView: MKMapView, mapWidthInMetres: Double) {
@@ -415,6 +411,17 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             mapView.mapType = type
         }
     }
+	
+	// Show path distance annotation; only once.
+	private func showDistanceAnnotation(mapView: MKMapView) {
+		if (distanceAnnotation == nil) {
+			return
+		}
+		
+		mapView.selectAnnotation(distanceAnnotation!, animated: true)
+		
+		distanceAnnotation = nil
+	}
     
     // Check if user moved the map.
     private func mapViewRegionDidChangeFromUserInteraction(mapView mapView: MKMapView) -> Bool {
