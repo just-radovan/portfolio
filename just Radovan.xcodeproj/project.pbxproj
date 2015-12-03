@@ -37,8 +37,6 @@
 		08C292311C0B48AB0002D4D3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08C292301C0B48AB0002D4D3 /* MapKit.framework */; };
 		08CE74571C0A223700EC8DCB /* PortfolioNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */; };
 		08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */; };
-		08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */; };
-		08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */; };
 		08F964F11C0F23FD00CE672C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F964F01C0F23FD00CE672C /* PhotoCollectionViewCell.swift */; };
 		08F964F31C0F245A00CE672C /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F964F21C0F245A00CE672C /* PhotoCollectionViewController.swift */; };
 		75F315D118E2BD65C55AE2E3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CAAAE33C57B38F9193831BA /* Pods.framework */; };
@@ -89,8 +87,6 @@
 		08C292301C0B48AB0002D4D3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioNavigationController.swift; sourceTree = "<group>"; };
 		08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
-		08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
-		08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
 		08F964F01C0F23FD00CE672C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		08F964F21C0F245A00CE672C /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		0CAAAE33C57B38F9193831BA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,8 +226,6 @@
 			children = (
 				08CE74561C0A223700EC8DCB /* PortfolioNavigationController.swift */,
 				089C159E1BF3AA3A00A7B1CD /* PortfolioPageViewController.swift */,
-				08E3CC4A1BE241ED00BF0B54 /* PhotoTableViewController.swift */,
-				08E3CC481BE23F8A00BF0B54 /* PhotoTableViewCell.swift */,
 				08F964F21C0F245A00CE672C /* PhotoCollectionViewController.swift */,
 				08F964F01C0F23FD00CE672C /* PhotoCollectionViewCell.swift */,
 				087AD0501BF3E06E00F67B29 /* MapViewController.swift */,
@@ -420,7 +414,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08E3CC491BE23F8A00BF0B54 /* PhotoTableViewCell.swift in Sources */,
 				08D6863F1BF7633C000A97F4 /* PointAnnotation.swift in Sources */,
 				08AC6ED41BDE1C5500DBEBEC /* ThumbnailModel.swift in Sources */,
 				0843D7F81C020CD8009A98DC /* DetailPhotoTableViewCell.swift in Sources */,
@@ -428,7 +421,6 @@
 				08B7C7481BE65D7E003E0D58 /* DetailViewController.swift in Sources */,
 				081E29F81C0B7CC50006A385 /* DistanceAnnotation.swift in Sources */,
 				0834006B1BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift in Sources */,
-				08E3CC4B1BE241ED00BF0B54 /* PhotoTableViewController.swift in Sources */,
 				08AB16751C039C17009EB079 /* DetailMapTableViewCell.swift in Sources */,
 				0843D7FA1C020CF6009A98DC /* DetailExifTableViewCell.swift in Sources */,
 				08608FAB1BF4C98F0032CE0C /* UserDefaultsEnum.swift in Sources */,
