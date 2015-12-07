@@ -41,8 +41,14 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         super.viewDidLoad()
         
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = minimumSpacing
+        layout.minimumInteritemSpacing = 0.0
         layout.minimumLineSpacing = minimumSpacing
+		layout.sectionInset = UIEdgeInsets(
+			top: minimumSpacing,
+			left: minimumSpacing,
+			bottom: minimumSpacing,
+			right: minimumSpacing
+		)
         self.collectionView?.collectionViewLayout = layout
         
         if (UIApplication.sharedApplication().keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) {
@@ -122,6 +128,8 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         if let thumbnail = photo.getThumbnailForSize(.THUMB) {
             displayThumbnail(cell, photo: photo, url: thumbnail.url)
         }
+		
+		cell.layer.cornerRadius = 5.0
         
         return cell
     }
@@ -169,7 +177,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
             pairHeight = pairHeight / scaleRatio
         }
         
-        let collectionWidth = self.collectionView!.frame.width - minimumSpacing
+        let collectionWidth = self.collectionView!.frame.width - (minimumSpacing * 3.0)
         let photosRatio = (thisWidth + pairWidth) / thisWidth
         
         let width = floor(collectionWidth / photosRatio)
