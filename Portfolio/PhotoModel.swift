@@ -56,6 +56,20 @@ struct PhotoModel {
         
         return nil
     }
+	
+	// Sorting options.
+	enum Sort: String {
+		
+		case taken = "taken"
+		case rating = "ratingHigh"
+		case focalLength = "focalLength"
+		case aperture = "aperture"
+		case sensitivity = "iso"
+		
+		func isAscending(sort: Sort) -> Bool {
+			return (sort == focalLength || sort == aperture || sort  == sensitivity)
+		}
+	}
 }
 
 extension PhotoModel: Equatable {}

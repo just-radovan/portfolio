@@ -259,7 +259,9 @@ class PhotoDownloader {
     // Notify about photo download finished.
     func onPhotoDownloadFinished(completion: (downloadedPhotos: Int) -> Void, downloadedPhotos: Int) {
         completion(downloadedPhotos: downloadedPhotos)
-    }
+		
+		NSNotificationCenter.defaultCenter().postNotificationName("photosUpdateNotification", object: nil, userInfo: ["photos": downloadedPhotos])
+	}
     
     
     // Create JSON from given String.

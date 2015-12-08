@@ -9,22 +9,32 @@
 import UIKit
 
 class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    
+	
+	let PAGE_COLLECTION = 0;
+	let PAGE_MAP = 1;
+	
     let pageCount = 2
     var currentPage = 0;
     var nextPage = 0;
+	var sortButtonItem: UIBarButtonItem?;
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.backgroundColor = UIColor.whiteColor()
-        
         self.dataSource = self
         self.delegate = self
+		
+		sortButtonItem = UIBarButtonItem(
+			title: "Sort",
+			style: UIBarButtonItemStyle.Plain,
+			target: self,
+			action: Selector("onSortButtonPressed:")
+		)
         
-        switchToPage(0)
+        switchToPage(PAGE_COLLECTION)
     }
     
     // MARK: Actions
@@ -33,6 +43,13 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     @IBAction func onSegmentChanged(sender: UISegmentedControl) {
         switchToPage(sender.selectedSegmentIndex)
     }
+	
+	// Initiate collection sort change.
+	@IBAction func onSortButtonPressed(sender: AnyObject?) {
+		if let collection = self.viewControllers![PAGE_COLLECTION] as? PhotoCollectionViewController {
+			collection.switchSort()
+		}
+	}
     
     // MARK: Pages
     
@@ -52,7 +69,13 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
             animated: true,
             completion: nil
         )
-        
+		
+		if (index == PAGE_COLLECTION) {
+			self.navigationItem.rightBarButtonItem = sortButtonItem
+		} else {
+			self.navigationItem.rightBarButtonItem = nil
+		}
+		
         currentPage = index
     }
     
@@ -69,9 +92,9 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     // Instantiate UIViewController for given page index.
     func viewControllerAtIndex(index: Int) -> UIViewController? {
         switch index {
-        case 0:
+        case PAGE_COLLECTION:
             return self.storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController")
-        case 1:
+        case PAGE_MAP:
             return self.storyboard?.instantiateViewControllerWithIdentifier("MapViewController")
         default:
             return nil
@@ -108,9 +131,9 @@ class PortfolioPageViewController: UIPageViewController, UIPageViewControllerDat
     // Get page index for given UIViewController.
     func getCurrentIndex(viewController: UIViewController) -> Int {
         if let _ = viewController as? PhotoCollectionViewController {
-            return 0
+            return PAGE_COLLECTION
         } else if let _ = viewController as? MapViewController {
-            return 1
+            return PAGE_MAP
         }
         
         return -1

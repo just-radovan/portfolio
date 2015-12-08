@@ -109,6 +109,7 @@ class DataController {
     }
     
     // MARK: Models
+	
     // Check whether photo with given ID exists. If yes, update. Otherwise, create new entry.
     func saveOrUpdatePhoto(photoModel: PhotoModel) {
         let id = photoModel.id
@@ -151,11 +152,22 @@ class DataController {
         }
     }
     
-    // Get all photos (managed objects)
-    func getPhotos() -> [PhotoModel]? {
+    // Get all photos (models)
+	func getPhotos() -> [PhotoModel]? {
+		return getPhotos(sort: nil)
+	}
+	
+	// Get all photos (models)
+	func getPhotos(sort sort: PhotoModel.Sort?) -> [PhotoModel]? {
         let request = NSFetchRequest(entityName: "Photos")
-        request.sortDescriptors = [NSSortDescriptor(key: "taken", ascending: false)]
-        
+		
+		let defaultSort = NSSortDescriptor(key: "taken", ascending: false)
+		if (sort == nil) {
+			request.sortDescriptors = [defaultSort]
+		} else {
+			request.sortDescriptors = [NSSortDescriptor(key: sort!.rawValue, ascending: sort!.isAscending(sort!)), defaultSort]
+		}
+		
         var results: [PhotoMO]?
         do {
             results = try managedObjectContext.executeFetchRequest(request) as? [PhotoMO]

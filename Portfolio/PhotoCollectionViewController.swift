@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import AlamofireImage
 
 class PhotoCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIViewControllerPreviewingDelegate {
@@ -19,13 +20,16 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     // MARK: Properties - photos
     let dataController: DataController
     let thumbnailCacheID = "thumbnail"
+	var collectionSort = PhotoModel.Sort.taken
     var photos = [PhotoModel]()
     var imageCache: AutoPurgingImageCache
     var imageDownloader: ImageDownloader
     
     // MARK: Properties - stuff
     let dateFormatter = NSDateFormatter()
-    
+	
+	// MARK: Initialization.
+	
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         dataController = appDelegate.dataController
@@ -54,8 +58,10 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         if (UIApplication.sharedApplication().keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) {
             self.registerForPreviewingWithDelegate(self, sourceView: self.view)
         }
-    
-        loadPhotos()
+		
+		loadPhotos()
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onPhotosUpdate:", name: "photosUpdateNotification", object: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -189,22 +195,13 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     
     // MARK: Photos
     
-    // Get photo for given index.
-    private func getPhotoAtIndex(indexPath indexPath: NSIndexPath) -> PhotoModel {
-        return getPhotoAtIndex(index: indexPath.row)
-    }
-    
-    private func getPhotoAtIndex(index index: Int) -> PhotoModel {
-        return photos[index]
-    }
-    
     // Load and display photos.
     private func loadPhotos() {
-        if let photoModels = dataController.getPhotos() {
+		if let photoModels = dataController.getPhotos(sort: collectionSort) {
             photos = photoModels
             
-            if let collectionView = collectionView {
-                collectionView.reloadData()
+            if let view = collectionView {
+                view.reloadData()
             }
             
             print("Photos loaded; \(photos.count)")
@@ -283,4 +280,32 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
             }
         }
     }
+	
+	// Get photo with given index path.
+	private func getPhotoAtIndex(indexPath indexPath: NSIndexPath) -> PhotoModel {
+		return getPhotoAtIndex(index: indexPath.row)
+	}
+	
+	// Get photo at given index.
+	private func getPhotoAtIndex(index index: Int) -> PhotoModel {
+		return photos[index]
+	}
+	
+	// Switch collection sort; taken / rating.
+	func switchSort() {
+		if (collectionSort != PhotoModel.Sort.taken) {
+			collectionSort = PhotoModel.Sort.taken
+		} else {
+			collectionSort = PhotoModel.Sort.rating
+		}
+		
+		loadPhotos()
+	}
+	
+	// MARK: Notifications
+	
+	// Receive notification when photos are downloaded or updated.
+	func onPhotosUpdate(notification: NSNotification) {
+		loadPhotos()
+	}
 }
