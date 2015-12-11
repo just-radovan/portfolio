@@ -60,7 +60,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
-    
+	
     // MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "ShowPhotoDetailFromMap") {

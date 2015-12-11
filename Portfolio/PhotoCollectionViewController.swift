@@ -45,7 +45,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         super.viewDidLoad()
         
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 0.0
+        layout.minimumInteritemSpacing = minimumSpacing
         layout.minimumLineSpacing = minimumSpacing
 		layout.sectionInset = UIEdgeInsets(
 			top: minimumSpacing,

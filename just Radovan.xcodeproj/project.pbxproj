@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		081E29F81C0B7CC50006A385 /* DistanceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081E29F71C0B7CC50006A385 /* DistanceAnnotation.swift */; };
 		083400661BE3785C007F096D /* PhotosCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 083400641BE3785C007F096D /* PhotosCoreData.xcdatamodeld */; };
 		0834006B1BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083400671BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift */; };
 		0834006C1BE37C93007F096D /* ThumbnailMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083400681BE37C93007F096D /* ThumbnailMO.swift */; };
@@ -53,7 +52,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		081E29F71C0B7CC50006A385 /* DistanceAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceAnnotation.swift; sourceTree = "<group>"; };
 		083400651BE3785C007F096D /* PhotosCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhotosCoreData.xcdatamodel; sourceTree = "<group>"; };
 		083400671BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ThumbnailMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		083400681BE37C93007F096D /* ThumbnailMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailMO.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				08D6863E1BF7633C000A97F4 /* PointAnnotation.swift */,
-				081E29F71C0B7CC50006A385 /* DistanceAnnotation.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -419,7 +416,6 @@
 				0843D7F81C020CD8009A98DC /* DetailPhotoTableViewCell.swift in Sources */,
 				0834006D1BE37C93007F096D /* PhotoMO+CoreDataProperties.swift in Sources */,
 				08B7C7481BE65D7E003E0D58 /* DetailViewController.swift in Sources */,
-				081E29F81C0B7CC50006A385 /* DistanceAnnotation.swift in Sources */,
 				0834006B1BE37C93007F096D /* ThumbnailMO+CoreDataProperties.swift in Sources */,
 				08AB16751C039C17009EB079 /* DetailMapTableViewCell.swift in Sources */,
 				0843D7FA1C020CF6009A98DC /* DetailExifTableViewCell.swift in Sources */,

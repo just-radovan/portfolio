@@ -51,8 +51,8 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     let distanceAnnotationViewReuseID = "distanceAnnotation"
     let photoAnnotationViewReuseID = "photoAnnotation"
     var lastKnownUserLocation: MKUserLocation?
+	var displayedRoutes: [MKRoute]?
     var userChangedMap: Bool = false
-    var distanceAnnotation: DistanceAnnotation?
 
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -77,13 +77,13 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             navigationController.setBlackNavigationBar()
         }
     }
-    
+	
     override func viewWillDisappear(animated: Bool) {
         if let navigationController = self.parentViewController as? PortfolioNavigationController {
             navigationController.setWhiteNavigationBar()
         }
     }
-    
+	
     // MARK: TableView
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -146,8 +146,6 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation) {
             return nil
-        } else if (annotation is DistanceAnnotation) {
-            return prepareDistanceAnnotation(mapView, viewForAnnotation: annotation)
         } else {
             return preparePhotoAnnotation(mapView, viewForAnnotation: annotation)
         }
@@ -158,6 +156,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         lastKnownUserLocation = userLocation
         
         adaptMapViewport(mapView: mapView)
+		displayDirectons(mapView: mapView)
     }
     
     // Handle map movement.
@@ -176,8 +175,6 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
             mapView: mapView,
             mapWidthInMetres: MKMapRectGetWidth(mapView.visibleMapRect) / 10.0
         )
-		
-		showDistanceAnnotation(mapView)
     }
     
     // Render path
@@ -412,17 +409,6 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         }
     }
 	
-	// Show path distance annotation; only once.
-	private func showDistanceAnnotation(mapView: MKMapView) {
-		if (distanceAnnotation == nil) {
-			return
-		}
-		
-		mapView.selectAnnotation(distanceAnnotation!, animated: true)
-		
-		distanceAnnotation = nil
-	}
-    
     // Check if user moved the map.
     private func mapViewRegionDidChangeFromUserInteraction(mapView mapView: MKMapView) -> Bool {
         let view = mapView.subviews[0]
@@ -453,7 +439,7 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
     
     // Adapt viewport to make visible photo location and user location.
     private func adaptMapViewport(mapView mapView: MKMapView) {
-        if (userChangedMap) {
+		if (userChangedMap) {
             return // User changed viewport.
         }
         if (lastKnownUserLocation == nil) {
@@ -462,53 +448,38 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         if (photo == nil || photo?.latitude == nil || photo?.longitude == nil) {
             return // We don't have location of the photo.
         }
-        
-        // Center.
-        let centerLatitude = (lastKnownUserLocation!.coordinate.latitude + photo!.latitude!) / 2.0
-        let centerLongitude = (lastKnownUserLocation!.coordinate.longitude + photo!.longitude!) / 2.0
-        let center = CLLocationCoordinate2DMake(centerLatitude, centerLongitude)
-        
-        // Span.
-        var latitudeDelta: Double
-        if (lastKnownUserLocation!.coordinate.latitude < photo!.latitude!) {
-            latitudeDelta = photo!.latitude! - lastKnownUserLocation!.coordinate.latitude
-        } else {
-            latitudeDelta = lastKnownUserLocation!.coordinate.latitude - photo!.latitude!
-        }
-        
-        var longitudeDelta: Double
-        if (lastKnownUserLocation!.coordinate.longitude < photo!.longitude!) {
-            longitudeDelta = photo!.longitude! - lastKnownUserLocation!.coordinate.longitude
-        } else {
-            longitudeDelta = lastKnownUserLocation!.coordinate.longitude - photo!.longitude!
-        }
-        
-        let span = MKCoordinateSpanMake(
-            latitudeDelta * 1.2,
-            longitudeDelta * 1.2
-        )
-        
-        // Zomm map to computed viewport.
-        let viewport = MKCoordinateRegionMake(center, span);
-        
-        mapView.setRegion(viewport, animated: true)
+		
+		// Center.
+		let centerLatitude = (lastKnownUserLocation!.coordinate.latitude + photo!.latitude!) / 2.0
+		let centerLongitude = (lastKnownUserLocation!.coordinate.longitude + photo!.longitude!) / 2.0
+		let center = CLLocationCoordinate2DMake(centerLatitude, centerLongitude)
+		
+		// Span.
+		var latitudeDelta: Double
+		if (lastKnownUserLocation!.coordinate.latitude < photo!.latitude!) {
+			latitudeDelta = photo!.latitude! - lastKnownUserLocation!.coordinate.latitude
+		} else {
+			latitudeDelta = lastKnownUserLocation!.coordinate.latitude - photo!.latitude!
+		}
+		
+		var longitudeDelta: Double
+		if (lastKnownUserLocation!.coordinate.longitude < photo!.longitude!) {
+			longitudeDelta = photo!.longitude! - lastKnownUserLocation!.coordinate.longitude
+		} else {
+			longitudeDelta = lastKnownUserLocation!.coordinate.longitude - photo!.longitude!
+		}
+		
+		let span = MKCoordinateSpanMake(
+			latitudeDelta * 1.7,
+			longitudeDelta * 1.7
+		)
+		
+		// Zomm map to computed viewport.
+		let viewport = MKCoordinateRegionMake(center, span);
+		
+		mapView.setRegion(viewport, animated: true)
     }
-    
-    
-    
-    // Prepare distance map annotation.
-    private func prepareDistanceAnnotation(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        var pin = mapView.dequeueReusableAnnotationViewWithIdentifier(distanceAnnotationViewReuseID)
-        if (pin != nil) {
-            pin!.annotation = annotation
-        } else {pin = MKAnnotationView(annotation: annotation, reuseIdentifier: distanceAnnotationViewReuseID)
-            pin!.image = nil
-            pin!.canShowCallout = true
-        }
-        
-        return pin
-    }
-    
+	
     // Prepare photo map annotation.
     private func preparePhotoAnnotation(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var button: UIButton?
@@ -592,21 +563,18 @@ class DetailViewController: UITableViewController, MKMapViewDelegate {
         let directions = MKDirections(request: request)
         directions.calculateDirectionsWithCompletionHandler { response, error in
             guard let unwrappedResponse = response else { return }
-            
-            for route in unwrappedResponse.routes {
+			
+			// Remove old route.
+			if let oldRoutes = self.displayedRoutes {
+				for oldRoute in oldRoutes {
+					mapView.removeOverlay(oldRoute.polyline)
+				}
+			}
+			
+			// Display new route.
+			self.displayedRoutes = unwrappedResponse.routes
+            for route in self.displayedRoutes! {
                 mapView.addOverlay(route.polyline)
-                mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-                
-                let distance = String(format: "%0.1f km", route.distance / 1000.0)
-                let middle = route.polyline.points()[route.polyline.pointCount / 10]
-                let location = MKCoordinateForMapPoint(middle)
-                let annotation = DistanceAnnotation()
-                annotation.coordinate = location
-                annotation.title = "Distance to photo point: \(distance)"
-                
-                mapView.addAnnotation(annotation)
-                
-                self.distanceAnnotation = annotation
             }
         }
     }
