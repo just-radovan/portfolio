@@ -19,7 +19,8 @@ extension NSURLSessionTask {
 class PhotoDownloader {
     
     // MARK: Properties
-    
+	
+	let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
     let dataController: DataController
     let dateFormatter = NSDateFormatter()
     let photoBaseUrl = "https://api.500px.com/v1/photos"
@@ -41,46 +42,50 @@ class PhotoDownloader {
     
     // Check last download and make sure not to download photos everytime.
     func refresh(completion: (downloadedPhotos: Int) -> Void) {
-        if let lastDownload = defaultValues.valueForKey(UserDefaultsEnum.LAST_DOWNLOAD.rawValue) as? NSDate {
-            if (abs(lastDownload.timeIntervalSinceNow) < downloadIntervalList) {
-                return // Photos were downloaded before a while... skipping.
-            }
-        }
-        
-        downloadAll(completion)
+		dispatch_async(queue) { () -> Void in
+			if let lastDownload = self.defaultValues.valueForKey(UserDefaultsEnum.LAST_DOWNLOAD.rawValue) as? NSDate {
+				if (abs(lastDownload.timeIntervalSinceNow) < self.downloadIntervalList) {
+					return // Photos were downloaded before a while... skipping.
+				}
+			}
+			
+			self.downloadAll(completion)
+		}
     }
     
     // Download all new photos and it's details.
     func downloadAll(completion: (downloadedPhotos: Int) -> Void) {
-        let downloader = PhotoDownloader()
-        
-        var checked = 0 // Checked photos.
-        var saved = 0 // Newly saved photos.
-        
-        downloader.downloadList { photos in
-            if photos == nil || photos!.count == 0 {
-                return
-            }
-            
-            for photo in photos! {
-                if self.dataController.photoExists(photo.id) {
-                    if (checked >= photos!.count) {
-                        self.onPhotoDownloadFinished(completion, downloadedPhotos: saved)
-                    }
-                    
-                    checked += 1
-                } else {
-                    self.dataController.saveOrUpdatePhoto(photo)
-                    
-                    saved += 1
-                    checked += 1
-                    
-                    if (checked >= photos!.count) {
-                        self.onPhotoDownloadFinished(completion, downloadedPhotos: saved)
-                    }
-                }
-            }
-        }
+		dispatch_async(queue) { () -> Void in
+			let downloader = PhotoDownloader()
+			
+			var checked = 0 // Checked photos.
+			var saved = 0 // Newly saved photos.
+			
+			downloader.downloadList { photos in
+				if photos == nil || photos!.count == 0 {
+					return
+				}
+				
+				for photo in photos! {
+					if self.dataController.photoExists(photo.id) {
+						if (checked >= photos!.count) {
+							self.onPhotoDownloadFinished(completion, downloadedPhotos: saved)
+						}
+						
+						checked += 1
+					} else {
+						self.dataController.saveOrUpdatePhoto(photo)
+						
+						saved += 1
+						checked += 1
+						
+						if (checked >= photos!.count) {
+							self.onPhotoDownloadFinished(completion, downloadedPhotos: saved)
+						}
+					}
+				}
+			}
+		}
     }
     
     // Download photo list.
@@ -91,58 +96,60 @@ class PhotoDownloader {
     
     // Download photo list. Add the page to given list of phot models.
     func downloadList(page: Int, var photos: [PhotoModel], completion: (result: [PhotoModel]?) -> Void) {
-        let params = [
-            "feature": "user",
-            "username": "just_radovan",
-            "sort": "taken_at",
-            "image_size[0]": String(ThumbnailSizeEnum.PIN.rawValue),
-            "image_size[1]": String(ThumbnailSizeEnum.THUMB.rawValue),
-            "image_size[2]": String(ThumbnailSizeEnum.FULL.rawValue),
-            "page": String(page),
-            "consumer_key": Config.consumerKey
-        ]
-        
-        Alamofire.request(.GET, photoBaseUrl, parameters: params).responseString { response in
-            if let data = response.result.value {
-                if let json = self.getJSONFromString(data) {
-                    // Get basic data and list.
-                    let photosOnPage = json["photos"].count
-                    let currentPage = json["current_page"].intValue
-                    let totalPages = json["total_pages"].intValue
-                    
-                    print("Obtained list .. page \(currentPage) of \(totalPages) with \(photosOnPage) photos.")
-                    
-                    // Append photos from list to all.
-                    let list = self.parseListJSON(json)
-                    photos.appendContentsOf(list)
-                    
-                    // Check how many photos are new.
-                    var photosExists = 0
-                    for photo in list {
-                        if self.dataController.photoExists(photo.id) {
-                            photosExists += 1
-                        }
-                    }
-                    
-                    if (page < totalPages && photosOnPage > photosExists) {
-                        // If there is another page with new photos, download it.
-                        self.downloadList(page + 1, photos: photos, completion: completion)
-                    } else {
-                        // Everything downloaded, send the result.
-                        completion(result: photos)
-                        
-                        // Save download's date.
-                        self.defaultValues.setObject(NSDate(), forKey: UserDefaultsEnum.LAST_DOWNLOAD.rawValue)
-                    }
-                }
-            } else {
-                print("No response from 500px server.")
-            }
-        }
+		dispatch_async(queue) { () -> Void in
+			let params = [
+				"feature": "user",
+				"username": "just_radovan",
+				"sort": "taken_at",
+				"image_size[0]": String(ThumbnailSizeEnum.PIN.rawValue),
+				"image_size[1]": String(ThumbnailSizeEnum.THUMB.rawValue),
+				"image_size[2]": String(ThumbnailSizeEnum.FULL.rawValue),
+				"page": String(page),
+				"consumer_key": Config.consumerKey
+			]
+			
+			Alamofire.request(.GET, self.photoBaseUrl, parameters: params).responseString { response in
+				if let data = response.result.value {
+					if let json = self.getJSONFromString(data) {
+						// Get basic data and list.
+						let photosOnPage = json["photos"].count
+						let currentPage = json["current_page"].intValue
+						let totalPages = json["total_pages"].intValue
+						
+						print("Obtained list .. page \(currentPage) of \(totalPages) with \(photosOnPage) photos.")
+						
+						// Append photos from list to all.
+						let list = self.parseListJSON(json)
+						photos.appendContentsOf(list)
+						
+						// Check how many photos are new.
+						var photosExists = 0
+						for photo in list {
+							if self.dataController.photoExists(photo.id) {
+								photosExists += 1
+							}
+						}
+						
+						if (page < totalPages && photosOnPage > photosExists) {
+							// If there is another page with new photos, download it.
+							self.downloadList(page + 1, photos: photos, completion: completion)
+						} else {
+							// Everything downloaded, send the result.
+							completion(result: photos)
+							
+							// Save download's date.
+							self.defaultValues.setObject(NSDate(), forKey: UserDefaultsEnum.LAST_DOWNLOAD.rawValue)
+						}
+					}
+				} else {
+					print("No response from 500px server.")
+				}
+			}
+		}
     }
     
     // Parse downloaded JSON into array of PhotoModels.
-    func parseListJSON(json: JSON) -> [PhotoModel] {
+    private func parseListJSON(json: JSON) -> [PhotoModel] {
         var photos = [PhotoModel]()
         
         for (_, element):(String, JSON) in json["photos"] {
@@ -193,25 +200,27 @@ class PhotoDownloader {
     
     // Refresh all photo details available. Return number of refreshed details.
     func refreshAllDetails() {
-        if let photos = dataController.getPhotos() {
-            for photo in photos {
-                if let lastDownload = photo.downloaded {
-                    if (abs(lastDownload.timeIntervalSinceNow) < downloadIntervalDetail) {
-                        continue // Photo detail was refreshed recently.
-                    }
-                }
-                
-                refreshDetail(photo) { photo in
-                    if (photo != nil) {
-                        self.dataController.saveOrUpdatePhoto(photo!)
-                    }
-                }
-            }
-        }
+		dispatch_async(queue) { () -> Void in
+			if let photos = self.dataController.getPhotos() {
+				for photo in photos {
+					if let lastDownload = photo.downloaded {
+						if (abs(lastDownload.timeIntervalSinceNow) < self.downloadIntervalDetail) {
+							continue // Photo detail was refreshed recently.
+						}
+					}
+					
+					self.refreshDetail(photo) { photo in
+						if (photo != nil) {
+							self.dataController.saveOrUpdatePhoto(photo!)
+						}
+					}
+				}
+			}
+		}
     }
     
     // Refresh photo detail
-    func refreshDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
+    private func refreshDetail(photo: PhotoModel, completion: (result: PhotoModel?) -> Void) {
         let params = [
             "consumer_key": Config.consumerKey
         ]
@@ -232,7 +241,7 @@ class PhotoDownloader {
     }
     
     // Parse downloaded JSON into PhotoModel
-    func parseShortDetailJSON(var photo photo: PhotoModel, json: JSON) -> PhotoModel {
+    private func parseShortDetailJSON(var photo photo: PhotoModel, json: JSON) -> PhotoModel {
         let element = json["photo"]
         
         // Basic
@@ -257,7 +266,7 @@ class PhotoDownloader {
     // MARK: Common
     
     // Notify about photo download finished.
-    func onPhotoDownloadFinished(completion: (downloadedPhotos: Int) -> Void, downloadedPhotos: Int) {
+    private func onPhotoDownloadFinished(completion: (downloadedPhotos: Int) -> Void, downloadedPhotos: Int) {
         completion(downloadedPhotos: downloadedPhotos)
 		
 		NSNotificationCenter.defaultCenter().postNotificationName("photosUpdateNotification", object: nil, userInfo: ["photos": downloadedPhotos])
@@ -265,7 +274,7 @@ class PhotoDownloader {
     
     
     // Create JSON from given String.
-    func getJSONFromString(data: String) -> JSON? {
+    private func getJSONFromString(data: String) -> JSON? {
         if let dataFromString = data.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             return JSON(data: dataFromString)
         }
