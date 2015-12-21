@@ -174,28 +174,28 @@ class DataController {
         } catch let error as NSError {
             print("Failed to load photos; error: \(error.code)")
         }
-        
-        if (results != nil) {
-            var models = [PhotoModel]()
-            for photoMO in results! {
-                var photoModel = photoMO.getPhotoModel();
-                
-                // Load thumbnails.
-                if let thumbnails = getThumbnailsForPhoto(photoMO) {
-                    photoModel.thumbnails = [ThumbnailModel]()
-                    
-                    for thumbnailMO in thumbnails {
-                        photoModel.thumbnails!.append(thumbnailMO.getThumbnailModel())
-                    }
-                }
-                
-                // Add to photos array.
-                models.append(photoModel)
-            }
-            
-            return models
-        }
-        
-        return nil
-    }
+		
+		guard (results != nil) else {
+			return nil
+		}
+		
+		var models = [PhotoModel]()
+		for photoMO in results! {
+			var photoModel = photoMO.getPhotoModel();
+			
+			// Load thumbnails.
+			if let thumbnails = getThumbnailsForPhoto(photoMO) {
+				photoModel.thumbnails = [ThumbnailModel]()
+				
+				for thumbnailMO in thumbnails {
+					photoModel.thumbnails!.append(thumbnailMO.getThumbnailModel())
+				}
+			}
+			
+			// Add to photos array.
+			models.append(photoModel)
+		}
+		
+		return models
+	}
 }

@@ -62,7 +62,7 @@ class PhotoDownloader {
 			var saved = 0 // Newly saved photos.
 			
 			downloader.downloadList { photos in
-				if photos == nil || photos!.count == 0 {
+				guard (photos != nil && photos!.count > 0) else {
 					return
 				}
 				

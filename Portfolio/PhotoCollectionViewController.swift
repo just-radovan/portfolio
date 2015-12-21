@@ -79,7 +79,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         let indexPath = self.collectionView?.indexPathForItemAtPoint(self.view.convertPoint(location, toView: self.collectionView))
-        if (indexPath == nil) {
+		guard (indexPath != nil) else {
             return nil
         }
         
@@ -121,7 +121,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
         let photo = getPhotoAtIndex(indexPath: indexPath)
         
         // Set cell-photo relation.
-        if (cell.photoId == photo.id) {
+		guard (cell.photoId != photo.id) else {
             return cell // Displaying the same cell, no need to refresh it.
         }
         
@@ -144,7 +144,7 @@ class PhotoCollectionViewController: UICollectionViewController, UICollectionVie
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         // Get photo to be displayed in the cell.
         let photo = getPhotoAtIndex(indexPath: indexPath)
-        if (self.collectionView == nil || photo.width == nil || photo.height == nil) {
+        guard (self.collectionView != nil && photo.width != nil && photo.height != nil) else {
             return CGSize(width: defaultCellWidth, height: defaultCellHeight) // Default size.
         }
         
